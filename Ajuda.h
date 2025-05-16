@@ -1,7 +1,7 @@
 #ifndef AJUDA_H_
 #define AJUDA_H_
 
-#include <iostream.h>
+#include <iostream>
 
 using namespace std;
 

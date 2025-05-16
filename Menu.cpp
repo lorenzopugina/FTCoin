@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Menu::Menu(const string& titulo, vector<MenuItem>& items) : titulo(titulo), items(items) {}
+Menu::Menu(const string& titulo, vector<MenuItem>& items): titulo(titulo), items(items) {}
 
 Menu::~Menu(){
   // por enquanto nada
