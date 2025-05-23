@@ -19,53 +19,43 @@
  * ********************************************************************************
  * Copyright (C) 2024 Andre F. de Angelis
  * ********************************************************************************
- * TextFromFile.cpp
+ * Date.h
  * ********************************************************************************
  */
 
+#ifndef DATE_H_
+#define DATE_H_
+
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <stdexcept>
+#include <ctime>
 
-#include "TextFromFile.h"
-#include "Utils.h"
-
-TextFromFile::TextFromFile(string fileName) :
-		fileName(fileName)
+class Date
 	{
-	fileContent = "";
-	try
-		{
-		ifstream inputFile(fileName);
-		stringstream buffer;
+	private:
+		int day;
+		int month;
+		int year;
 
-		if (!inputFile.is_open())
-			{
-			throw runtime_error("Failed to open the file: " + fileName);
-			}
+	public:
+		Date();
+		Date(int day, int month, int year);
+		Date(std::string isoFormat);
+		virtual ~Date();
 
-		buffer << inputFile.rdbuf(); // Read entire file into the buffer
-		inputFile.close();
-		fileContent = buffer.str();
-		}
-	catch (const exception &myException)
-		{
-		Utils::printMessage("Unexpected problem: " + string(myException.what()));
-		}
-	}
+		int getYear();
+		int getMonth();
+		int getDay();
+		std::string getIsoFormat();
 
-string& TextFromFile::getFileContent()
-	{
-	return fileContent;
-	}
+		bool operator==(const Date &other) const;
+		bool operator!=(const Date &other) const;
+		bool operator>(const Date &other) const;
+		bool operator>=(const Date &other) const;
+		bool operator<(const Date &other) const;
+		bool operator<=(const Date &other) const;
 
-string& TextFromFile::getFileName()
-	{
-	return fileName;
-	}
+		friend std::ostream& operator<<(std::ostream &os, const Date &date);
+		friend std::istream& operator>>(std::istream &is, Date &date);
+	};
 
-TextFromFile::~TextFromFile()
-	{
-	}
+#endif /* DATE_H_ */
