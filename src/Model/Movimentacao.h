@@ -1,39 +1,38 @@
-#ifndef MOVIMENTACAO_H_
-#define MOVIMENTACAO_H_
+#ifndef MOVIMENTACAO_H
+#define MOVIMENTACAO_H
 
-#include "Data.h"  // Inclui a classe Data
+#include <string>
+#include <stdexcept>
 
 class Movimentacao {
 private:
-    int id;
-    int idCarteira;
-    Data dataMov;
-    char tipoMovimento;  // 'C' (Compra) ou 'V' (Venda)
-    double quantMov;
+    int idCarteira;         // Chave estrangeira
+    int idMovimento;        // Chave primária (única)
+    std::string dataOperacao; // Data no formato YYYY-MM-DD
+    char tipoOperacao;      // 'C' para compra, 'V' para venda
+    double quantidade;      // Não negativo
 
-    static int proximoId;  // Contador estático para gerar IDs automaticamente
+    // Método auxiliar para validar dados
+    void validarDados();
 
 public:
-    // Construtor e Destrutor
-    Movimentacao(int idCarteira, const Data& dataMov, char tipoMovimento, double quantMov);
-    ~Movimentacao();
+    // Construtor
+    Movimentacao(int idCarteira, int idMovimento, const std::string& dataOperacao, 
+                 char tipoOperacao, double quantidade);
 
-    // Getters (métodos const)
-    int getId() const;
+    // Getters
     int getIdCarteira() const;
-    Data getDataMov() const;
-    char getTipoMovimento() const;
-    double getQuantMov() const;
+    int getIdMovimento() const;
+    std::string getDataOperacao() const;
+    char getTipoOperacao() const;
+    double getQuantidade() const;
 
-    // Setters (com validação implícita no .cpp)
-    void setIdCarteira(int idCarteira);
-    void setDataMov(const Data& dataMov);
-    void setTipoMovimento(char tipoMovimento);
-    void setQuantMov(double quantMov);
-
-    // Métodos de registro
-    void registrarCompra();
-    void registrarVenda();
+    // Setters com validação
+    void setIdCarteira(int id);
+    void setIdMovimento(int id);
+    void setDataOperacao(const std::string& data);
+    void setTipoOperacao(char tipo);
+    void setQuantidade(double qtd);
 };
 
-#endif  // MOVIMENTACAO_H_
+#endif // MOVIMENTACAO_H
