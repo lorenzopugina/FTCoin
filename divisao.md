@@ -1,10 +1,10 @@
 
-Adriano:
+Adriano: movimentação - model/controller
 
-Ana:
+Ana: oráculo - model
 
-João:
+João: relatório - controller
 
-Maria:
+Maria: carteira - model/controller 
 
-Lorenzo:
+Lorenzo: dao
