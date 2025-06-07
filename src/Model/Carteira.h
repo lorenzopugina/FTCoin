@@ -26,8 +26,8 @@ string getCorretora() const;
 
 //setters
 void setId(int id);
-void setNomeTitular(const string& newtitular);
-void setCorretora(const string& newcorretora);
+void setNomeTitular(const string& newTitular);
+void setCorretora(const string& newCorretora);
 
  // Validação do model
 bool estaValida() const;
