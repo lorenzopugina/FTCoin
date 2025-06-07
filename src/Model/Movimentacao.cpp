@@ -1,88 +1,76 @@
 #include "Movimentacao.h"
-#include <stdexcept>  // Para std::invalid_argument
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 
-// Inicialização do contador estático
-int Movimentacao::proximoId = 1;
+Movimentacao::Movimentacao(int idCarteira, int idMovimento, const std::string& dataOperacao, 
+                           char tipoOperacao, double quantidade) 
+    : idCarteira(idCarteira), idMovimento(idMovimento), dataOperacao(dataOperacao),
+      tipoOperacao(tipoOperacao), quantidade(quantidade) {
+    validarDados();
+}
 
-// Construtor
-Movimentacao::Movimentacao(int idCarteira, const Data& dataMov, char tipoMovimento, double quantMov) 
-    : id(proximoId++), 
-      idCarteira(idCarteira), 
-      dataMov(dataMov), 
-      tipoMovimento(tipoMovimento), 
-      quantMov(quantMov) {
-
-    // Validações
+void Movimentacao::validarDados() {
     if (idCarteira <= 0) {
-        throw std::invalid_argument("ID da carteira deve ser positivo.");
+        throw std::invalid_argument("ID da carteira deve ser positivo");
     }
-    if (tipoMovimento != 'C' && tipoMovimento != 'V') {
-        throw std::invalid_argument("Tipo de movimento inválido. Use 'C' (Compra) ou 'V' (Venda).");
+    
+    if (idMovimento <= 0) {
+        throw std::invalid_argument("ID do movimento deve ser positivo");
     }
-    if (quantMov <= 0) {
-        throw std::invalid_argument("Quantidade deve ser positiva.");
+    
+    // Validação simples da data (formato YYYY-MM-DD)
+    if (dataOperacao.length() != 10 || 
+        dataOperacao[4] != '-' || dataOperacao[7] != '-') {
+        throw std::invalid_argument("Formato de data inválido. Use YYYY-MM-DD");
+    }
+    
+    if (tipoOperacao != 'C' && tipoOperacao != 'V') {
+        throw std::invalid_argument("Tipo de operação inválido. Use 'C' ou 'V'");
+    }
+    
+    if (quantidade < 0) {
+        throw std::invalid_argument("Quantidade não pode ser negativa");
     }
 }
 
-// Destrutor
-Movimentacao::~Movimentacao() {
-    // Nada a fazer aqui (por enquanto)
+// Getters
+int Movimentacao::getIdCarteira() const { return idCarteira; }
+int Movimentacao::getIdMovimento() const { return idMovimento; }
+std::string Movimentacao::getDataOperacao() const { return dataOperacao; }
+char Movimentacao::getTipoOperacao() const { return tipoOperacao; }
+double Movimentacao::getQuantidade() const { return quantidade; }
+
+// Setters
+void Movimentacao::setIdCarteira(int id) { 
+    if (id <= 0) throw std::invalid_argument("ID da carteira deve ser positivo");
+    idCarteira = id; 
 }
 
-// --- Getters ---
-int Movimentacao::getId() const { 
-    return id; 
+void Movimentacao::setIdMovimento(int id) { 
+    if (id <= 0) throw std::invalid_argument("ID do movimento deve ser positivo");
+    idMovimento = id; 
 }
 
-int Movimentacao::getIdCarteira() const { 
-    return idCarteira; 
-}
-
-Data Movimentacao::getDataMov() const { 
-    return dataMov; 
-}
-
-char Movimentacao::getTipoMovimento() const { 
-    return tipoMovimento; 
-}
-
-double Movimentacao::getQuantMov() const { 
-    return quantMov; 
-}
-
-// --- Setters ---
-void Movimentacao::setIdCarteira(int idCarteira) {
-    if (idCarteira <= 0) {
-        throw std::invalid_argument("ID da carteira deve ser positivo.");
+void Movimentacao::setDataOperacao(const std::string& data) { 
+    // Validação simples do formato
+    if (data.length() != 10 || data[4] != '-' || data[7] != '-') {
+        throw std::invalid_argument("Formato de data inválido. Use YYYY-MM-DD");
     }
-    this->idCarteira = idCarteira;
+    dataOperacao = data; 
 }
 
-void Movimentacao::setDataMov(const Data& dataMov) {
-    this->dataMov = dataMov;
-}
-
-void Movimentacao::setTipoMovimento(char tipoMovimento) {
-    if (tipoMovimento != 'C' && tipoMovimento != 'V') {
-        throw std::invalid_argument("Tipo de movimento inválido. Use 'C' (Compra) ou 'V' (Venda).");
+void Movimentacao::setTipoOperacao(char tipo) { 
+    tipo = toupper(tipo);
+    if (tipo != 'C' && tipo != 'V') {
+        throw std::invalid_argument("Tipo de operação inválido. Use 'C' ou 'V'");
     }
-    this->tipoMovimento = tipoMovimento;
+    tipoOperacao = tipo; 
 }
 
-void Movimentacao::setQuantMov(double quantMov) {
-    if (quantMov <= 0) {
-        throw std::invalid_argument("Quantidade deve ser positiva.");
+void Movimentacao::setQuantidade(double qtd) { 
+    if (qtd < 0) {
+        throw std::invalid_argument("Quantidade não pode ser negativa");
     }
-    this->quantMov = quantMov;
-}
-
-// --- Métodos de Registro ---
-void Movimentacao::registrarCompra() {
-    tipoMovimento = 'C';
-    // Adicione lógica adicional aqui (ex: registrar em um log ou banco de dados)
-}
-
-void Movimentacao::registrarVenda() {
-    tipoMovimento = 'V';
-    // Adicione lógica adicional aqui
+    quantidade = qtd; 
 }
