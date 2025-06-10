@@ -4,33 +4,29 @@
 #include <string>
 #include <stdexcept>
 
+#include "../Utils/Date.h" // usando a classe data
+
 class Movimentacao {
 private:
-    int idCarteira;         // Chave estrangeira
-    int idMovimento;        // Chave primária (única)
-    std::string dataOperacao; // Data no formato YYYY-MM-DD
-    char tipoOperacao;      // 'C' para compra, 'V' para venda
-    double quantidade;      // Não negativo
-
-    // Método auxiliar para validar dados
-    void validarDados();
+    int idCarteira;         
+    int idMovimento;        
+    Date  dataOperacao;  // composição, colocar no UML
+    char tipoOperacao;      
+    double quantidade;      
 
 public:
-    // Construtor
-    Movimentacao(int idCarteira, int idMovimento, const std::string& dataOperacao, 
+    Movimentacao(int idCarteira, int idMovimento, const Date& dataOperacao, 
                  char tipoOperacao, double quantidade);
 
-    // Getters
     int getIdCarteira() const;
     int getIdMovimento() const;
-    std::string getDataOperacao() const;
+    Date getDataOperacao() const;
     char getTipoOperacao() const;
     double getQuantidade() const;
 
-    // Setters com validação
-    void setIdCarteira(int id);
-    void setIdMovimento(int id);
-    void setDataOperacao(const std::string& data);
+    void setIdCarteira(int id); // esses 2 provavelmente não existem
+    void setIdMovimento(int id); // aqui
+    void setDataOperacao(const Date& dataOperacao);
     void setTipoOperacao(char tipo);
     void setQuantidade(double qtd);
 };
