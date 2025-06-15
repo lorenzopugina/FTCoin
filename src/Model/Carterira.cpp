@@ -21,7 +21,7 @@ int Carteira::getId() const {
     return id;
 }
 
-string Carteira::getNomeTitular() const {
+string Carteira::getTitular() const {
     return nomeTitular;
 }
 
@@ -35,7 +35,7 @@ void Carteira::setId(int id)
     this->id = id;
 }
 
-void Carteira::setNomeTitular(const string& newTitular) 
+void Carteira::setTitular(const string& newTitular) 
 {
     if (newTitular.empty()) 
     {//se n houver um nome do titular, esta errado
