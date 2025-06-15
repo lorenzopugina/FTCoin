@@ -21,12 +21,12 @@ public:
 
 //getters
 int getId() const;
-string getNomeTitular() const;
+string getTitular() const;
 string getCorretora() const;
 
 //setters
 void setId(int id);
-void setNomeTitular(const string& newTitular);
+void setTitular(const string& newTitular);
 void setCorretora(const string& newCorretora);
 
  // Validação do model
