@@ -1,33 +1,21 @@
-#include "Oracle.h"
-#include <stdexcept>
+#include "Oraculo.h"
+#include <random>  // para geração de números aleatórios
 
-void Oracle::addExchangeRate(const Date& date, double rate) {
-    if (rate < 0) {
-        throw std::invalid_argument("Exchange rate cannot be negative");
-    }
-    exchangeRates[date] = rate;
-}
+// Construtor
+Oraculo::Oraculo(const Date& data)
+    : data(data), cotacao(gerarCotacaoAleatoria()) {}
 
-double Oracle::getExchangeRate(const Date& date) const {
-    auto it = exchangeRates.find(date);
-    if (it == exchangeRates.end()) {
-        throw std::out_of_range("No exchange rate found for " + date.toString());
-    }
-    return it->second;
-}
 
-bool Oracle::hasExchangeRate(const Date& date) const {
-    return exchangeRates.find(date) != exchangeRates.end();
-}
+Date Oraculo::getData() const { return data;}
+double Oraculo::getCotacao() const { return cotacao;}
 
-bool Oracle::removeExchangeRate(const Date& date) {
-    return exchangeRates.erase(date) > 0;
-}
+void Oraculo::setData(const Date& data){ this->data = data;}
+void Oraculo::setCotacao(double cotacao){ this->cotacao = cotacao;}
 
-void Oracle::clearAllRates() {
-    exchangeRates.clear();
-}
-
-size_t Oracle::getRateCount() const {
-    return exchangeRates.size();
+// Geração de cotação aleatória entre 0.8 e 2.4
+double Oraculo::gerarCotacaoAleatoria() const {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> distrib(0.8, 2.4);
+    return distrib(gen);
 }

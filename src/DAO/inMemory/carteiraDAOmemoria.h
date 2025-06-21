@@ -1,7 +1,7 @@
 #ifndef CARTEIRADAOMEMORIA_H
 #define CARTEIRADAOMEMORIA_H
 
-#include "../carteiraDAO.h"
+#include "../interface/carteiraDAO.h"
 #include <vector>
 
 class CarteiraDAOMemoria : public CarteiraDAO {

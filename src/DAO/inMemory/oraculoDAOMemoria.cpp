@@ -6,7 +6,7 @@ void OraculoDAOMemoria::salvar(const Oraculo& oraculo) {
 
 Oraculo OraculoDAOMemoria::buscarPorData(const Date& data) {
     for (const auto& o : oraculos) {
-        if (o.getData() == data) {
+        if (o.getData() == data) { // sobrecarregar operador ==
             return o;
         }
     }

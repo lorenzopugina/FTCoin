@@ -4,13 +4,13 @@
 #include <string>
 #include <stdexcept>
 
-#include "../Utils/Date.h" // usando a classe data
+#include "../Utils/Date.h" 
 
 class Movimentacao {
 private:
     int idCarteira;         
     int idMovimento;        
-    Date  dataOperacao;  // composição, colocar no UML
+    Date  dataOperacao;  
     char tipoOperacao;      
     double quantidade;      
 
@@ -24,8 +24,8 @@ public:
     char getTipoOperacao() const;
     double getQuantidade() const;
 
-    void setIdCarteira(int id); // esses 2 provavelmente não existem
-    void setIdMovimento(int id); // aqui
+    void setIdCarteira(int id); 
+    void setIdMovimento(int id);
     void setDataOperacao(const Date& dataOperacao);
     void setTipoOperacao(char tipo);
     void setQuantidade(double qtd);

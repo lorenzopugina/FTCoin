@@ -1,7 +1,7 @@
-#ifndef ORACULODAOMEMORIA_HPP
-#define ORACULODAOMEMORIA_HPP
+#ifndef ORACULODAOMEMORIA_H
+#define ORACULODAOMEMORIA_H
 
-#include "../oraculoDAO.h"
+#include "../interface/oraculoDAO.h"
 #include <vector>
 
 class OraculoDAOMemoria : public OraculoDAO {
