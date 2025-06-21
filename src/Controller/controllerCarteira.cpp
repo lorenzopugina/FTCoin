@@ -36,6 +36,7 @@ void CarteiraController::criarCarteira(int id, const string& titular, const stri
         dao->criar(novaCarteira); //criando carteira
         mostrarSucesso("Carteira criada com sucesso!");
     } 
+    // falta o catch
 
 }
 
@@ -46,7 +47,7 @@ unique_ptr<Carteira> CarteiraController::buscarCarteira(int id){
         mostrarErro("Carteira não encontrada!");
         return nullptr;
     }
-    return carteira;
+    return carteira; //copilot sugeriu ptr_unique<Carteira> carteira;
 }
 
 void CarteiraController::atualizarCarteira(int id, const string& novoTitular, const string& novaCorretora){
@@ -68,6 +69,7 @@ void CarteiraController::atualizarCarteira(int id, const string& novoTitular, co
         dao->atualizar(*carteira);
         mostrarSucesso("Carteira atualizada com sucesso!");
     }
+    // falta o catch 
 }
 
 void CarteiraController::excluirCarteira(int id) {

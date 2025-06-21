@@ -1,43 +1,86 @@
 #include "controllerRelatorio.h"
-#include <iostream>
+#include <algorithm>
+#include <stdexcept>
 
-// Assuming these exist for now
-// #include "RelatorioDAO.h"
+using namespace std;
 
-ControllerRelatorio::ControllerRelatorio() {
-    // Initialize DAO here
+// Construtor
+RelatorioController::RelatorioController(CarteiraDAO* cDAO, MovimentacaoDAO* mDAO, OraculoDAO* oDAO)
+    : carteiraDAO(cDAO), movimentacaoDAO(mDAO), oraculoDAO(oDAO) {}
+
+// Lista carteiras ordenadas por ID
+vector<Carteira> RelatorioController::listarCarteirasPorId() {
+    vector<Carteira> lista;
+
+    // Simula listagem buscando uma a uma
+    for (int id = 1;; id++) {
+        Carteira* c = carteiraDAO->buscar(id);
+        if (c == nullptr) break;
+        lista.push_back(*c);
+        delete c;
+    }
+
+    sort(lista.begin(), lista.end(), [](const Carteira& a, const Carteira& b) {
+        return a.getId() < b.getId();
+    });
+
+    return lista;
 }
 
-void ControllerRelatorio::handleListWalletsSortedById() {
-    displayReportMessage("Listing wallets sorted by ID...");
-    // Example: std::vector<Carteira> wallets = relatorioDAO->listWalletsSortedById();
-    // Display logic
+// Lista carteiras ordenadas por nome do titular
+vector<Carteira> RelatorioController::listarCarteirasPorNome() {
+    vector<Carteira> lista;
+
+    for (int id = 1;; id++) {
+        Carteira* c = carteiraDAO->buscar(id);
+        if (c == nullptr) break;
+        lista.push_back(*c);
+        delete c;
+    }
+
+    sort(lista.begin(), lista.end(), [](const Carteira& a, const Carteira& b) {
+        return a.getTitular() < b.getTitular();
+    });
+
+    return lista;
 }
 
-void ControllerRelatorio::handleListWalletsSortedByHolderName() {
-    displayReportMessage("Listing wallets sorted by holder name...");
-    // Example: std::vector<Carteira> wallets = relatorioDAO->listWalletsSortedByHolderName();
-    // Display logic
+// Calcula saldo atual da carteira
+double RelatorioController::calcularSaldoCarteira(int idCarteira) {
+    auto movimentacoes = movimentacaoDAO->listarPorCarteira(idCarteira);
+    double saldo = 0.0;
+
+    for (const auto& mov : movimentacoes) {
+        if (mov.getTipoOperacao() == 'C') {
+            saldo += mov.getQuantidade();
+        } else if (mov.getTipoOperacao() == 'V') {
+            saldo -= mov.getQuantidade();
+        }
+    }
+
+    return saldo;
 }
 
-void ControllerRelatorio::handleDisplayWalletBalance(int idCarteira) {
-    displayReportMessage("Displaying balance for wallet ID: " + std::to_string(idCarteira));
-    // Example: double balance = relatorioDAO->getWalletBalance(idCarteira);
-    // Display balance
+// Retorna histórico de movimentações da carteira
+vector<Movimentacao> RelatorioController::obterHistoricoCarteira(int idCarteira) {
+    return movimentacaoDAO->listarPorCarteira(idCarteira);
 }
 
-void ControllerRelatorio::handleDisplayWalletMovementHistory(int idCarteira) {
-    displayReportMessage("Displaying movement history for wallet ID: " + std::to_string(idCarteira));
-    // Example: std::vector<Movimentacao> history = relatorioDAO->getWalletMovementHistory(idCarteira);
-    // Display history
-}
+// Calcula ganho ou perda da carteira considerando cotações
+double RelatorioController::calcularGanhoPerda(int idCarteira) {
+    auto movimentacoes = movimentacaoDAO->listarPorCarteira(idCarteira);
+    double totalComprado = 0.0;
+    double totalVendido = 0.0;
 
-void ControllerRelatorio::handleDisplayWalletGainLoss(int idCarteira) {
-    displayReportMessage("Displaying gain/loss for wallet ID: " + std::to_string(idCarteira));
-    // Example: double gainLoss = relatorioDAO->calculateWalletGainLoss(idCarteira);
-    // Display gain/loss
-}
+    for (const auto& mov : movimentacoes) {
+        double cotacao = oraculoDAO->buscarPorData(mov.getDataOperacao()).getCotacao();
 
-void ControllerRelatorio::displayReportMessage(const std::string& message) {
-    std::cout << "ControllerRelatorio: " << message << std::endl;
+        if (mov.getTipoOperacao() == 'C') {
+            totalComprado += mov.getQuantidade() * cotacao;
+        } else if (mov.getTipoOperacao() == 'V') {
+            totalVendido += mov.getQuantidade() * cotacao;
+        }
+    }
+
+    return totalVendido - totalComprado;
 }

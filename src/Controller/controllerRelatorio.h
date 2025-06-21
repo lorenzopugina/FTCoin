@@ -1,26 +1,34 @@
-#ifndef CONTROLLER_RELATORIO_H
-#define CONTROLLER_RELATORIO_H
+#ifndef CONTROLLERRELATORIO_H
+#define CONTROLLERRELATORIO_H
 
-#include <string>
+#include "../DAO/inMemory/carteiraDAOmemoria.h"
+#include "../DAO/inMemory/movimentacaoDAOmemoria.h"
+#include "../DAO/inMemory/oraculoDAOmemoria.h"
+#include "../Model/Carteira.h"
+#include "../Model/Movimentacao.h"
+#include "../Model/Oraculo.h"
 #include <vector>
 
-// Forward declarations
-// class RelatorioDAO; // Assuming a DAO for Relatorio exists
+using namespace std;
 
-class ControllerRelatorio {
-public:
-    ControllerRelatorio();
-
-    void handleListWalletsSortedById();
-    void handleListWalletsSortedByHolderName();
-    void handleDisplayWalletBalance(int idCarteira);
-    void handleDisplayWalletMovementHistory(int idCarteira);
-    void handleDisplayWalletGainLoss(int idCarteira);
-
+class RelatorioController {
 private:
-    // RelatorioDAO* relatorioDAO;
+    CarteiraDAO* carteiraDAO;
+    MovimentacaoDAO* movimentacaoDAO;
+    OraculoDAO* oraculoDAO;
 
-    void displayReportMessage(const std::string& message);
+public:
+    RelatorioController(CarteiraDAO* cDAO, MovimentacaoDAO* mDAO, OraculoDAO* oDAO);
+
+    // Funcionalidades
+    vector<Carteira> listarCarteirasPorId();
+    vector<Carteira> listarCarteirasPorNome();
+
+    double calcularSaldoCarteira(int idCarteira);
+
+    vector<Movimentacao> obterHistoricoCarteira(int idCarteira);
+
+    double calcularGanhoPerda(int idCarteira);
 };
 
-#endif // CONTROLLER_RELATORIO_H
+#endif
