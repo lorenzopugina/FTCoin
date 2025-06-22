@@ -1,13 +1,14 @@
-#include "carteiraDAOmemoria.h" // deu prob
+#include "carteiraDAOmemoria.h" 
+#include <memory>
 
 void CarteiraDAOMemoria::criar(const Carteira& carteira) {
     bancoInMemory.push_back(carteira);
 }
 
-Carteira* CarteiraDAOMemoria::buscar(int id) {
+std::shared_ptr<Carteira> CarteiraDAOMemoria::buscar(int id) {
     for (const auto& carteiraInMemory : bancoInMemory) {
         if (carteiraInMemory.getId() == id) {
-            return new Carteira(carteiraInMemory); // lembrar delete 
+            return std::make_shared<Carteira>(carteiraInMemory);
         }
     }
     return nullptr;

@@ -12,18 +12,16 @@ using namespace std;
 class CarteiraController 
 {
     private:
-        unique_ptr<CarteiraDAO> dao;
-        Menu& menu;
-
-        void mostrarMensagem(const string& mensagem); 
+        shared_ptr<CarteiraDAO> dao;
 
     public:
-        CarteiraController(unique_ptr<CarteiraDAO> dao, Menu& menu);
+        CarteiraController(shared_ptr<CarteiraDAO> dao);
+        ~CarteiraController();
         
-        void criarCarteira(const string& titular, const string& corretora);
-        unique_ptr<Carteira> buscarCarteira(int id);
-        void atualizarCarteira(int id, const string& novoTitular, const string& novaCorretora);
-        void excluirCarteira(int id);
+        bool criarCarteira(const string& titular, const string& corretora);
+        shared_ptr<Carteira> buscarCarteira(int id);
+        bool atualizarCarteira(int id, const string& novoTitular, const string& novaCorretora);
+        bool excluirCarteira(int id);
 };
 
 #endif

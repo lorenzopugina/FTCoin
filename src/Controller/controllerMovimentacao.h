@@ -3,23 +3,24 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-// Forward declarations
-// class MovimentacaoDAO; // Assuming a DAO for Movimentacao exists
-// class Movimentacao;    // Assuming a Movimentacao model exists
+#include "../Model/Movimentacao.h"
+#include "../DAO/inMemory/movimentacaoDAOmemoria.h"
+
 
 class ControllerMovimentacao {
-public:
-    ControllerMovimentacao();
-
-    void handleRegisterBuy(int idCarteira, const std::string& dataOperacao, double quantidade);
-    void handleRegisterSell(int idCarteira, const std::string& dataOperacao, double quantidade);
-
 private:
-    // MovimentacaoDAO* movimentacaoDAO;
+    std::shared_ptr<MovimentacaoDAO> dao;
 
-    void displayMovementDetails(int idCarteira, const std::string& dataOperacao, char tipoOperacao, double quantidade);
-    void displayMessage(const std::string& message);
+public:
+    ControllerMovimentacao(std::shared_ptr<MovimentacaoDAO> dao);
+
+    bool criarMovimentacao(int idCarteira, const Date& dataOperacao, char tipoOperacao, double quantidade);
+    std::shared_ptr<Movimentacao> buscarMovimentacao(int idMovimento) const;
+    std::vector<Movimentacao> listarMovimentacoesPorCarteira(int idCarteira) const;
+    bool atualizarMovimentacao(int idMovimento, const Date& novaData, char novoTipo, double novaQuantidade);
+    bool excluirMovimentacao(int idMovimento);
 };
 
 #endif // CONTROLLER_MOVIMENTACAO_H

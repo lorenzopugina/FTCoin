@@ -10,7 +10,7 @@ private:
 
 public:
     void criar(const Carteira& carteira) override;
-    Carteira* buscar(int id) override;
+    std::shared_ptr<Carteira> buscar(int id) override;
     bool atualizar(const Carteira& carteira) override;
     bool excluir(int id) override;
 };

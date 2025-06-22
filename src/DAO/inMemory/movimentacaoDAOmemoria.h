@@ -10,7 +10,7 @@ private:
 
 public:
     void salvar(const Movimentacao& movimentacao) override;
-    Movimentacao* buscarPorId(int idMovimento) override;
+    std::shared_ptr<Movimentacao> buscarPorId(int idMovimento) override;
     std::vector<Movimentacao> listarPorCarteira(int idCarteira) override;
     bool atualizar(const Movimentacao& movimentacao) override;
     bool remover(int idMovimento) override;

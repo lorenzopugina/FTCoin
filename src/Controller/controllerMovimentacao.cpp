@@ -1,29 +1,44 @@
 #include "controllerMovimentacao.h"
-#include <iostream>
 
-// Assuming these exist for now
-// #include "MovimentacaoDAO.h"
-// #include "Movimentacao.h"
+using namespace std;
 
-ControllerMovimentacao::ControllerMovimentacao() {
-    // Initialize DAO here
+ControllerMovimentacao::ControllerMovimentacao(shared_ptr<MovimentacaoDAO> dao) {
+    this->dao = dao;
 }
 
-void ControllerMovimentacao::handleRegisterBuy(int idCarteira, const std::string& dataOperacao, double quantidade) {
-    displayMessage("Registering buy for wallet ID " + std::to_string(idCarteira) + ": " + std::to_string(quantidade) + " on " + dataOperacao);
-    // Example: movimentacaoDAO->create(Movimentacao(idCarteira, dataOperacao, 'C', quantidade));
+bool ControllerMovimentacao::criarMovimentacao(int idCarteira, const Date& dataOperacao, 
+                                               char tipoOperacao, double quantidade)
+{
+    try {
+        Movimentacao movimentacao(idCarteira, dataOperacao, tipoOperacao, quantidade);
+        dao->salvar(movimentacao);
+        return true;
+    } catch (const invalid_argument&) {
+        return false;
+    }
 }
 
-void ControllerMovimentacao::handleRegisterSell(int idCarteira, const std::string& dataOperacao, double quantidade) {
-    displayMessage("Registering sell for wallet ID " + std::to_string(idCarteira) + ": " + std::to_string(quantidade) + " on " + dataOperacao);
-    // Example: movimentacaoDAO->create(Movimentacao(idCarteira, dataOperacao, 'V', quantidade));
+shared_ptr<Movimentacao> ControllerMovimentacao::buscarMovimentacao(int idMovimento) const {
+    return dao->buscarPorId(idMovimento);
 }
 
-void ControllerMovimentacao::displayMovementDetails(int idCarteira, const std::string& dataOperacao, char tipoOperacao, double quantidade) {
-    std::cout << "Wallet ID: " << idCarteira << ", Date: " << dataOperacao << ", Type: " << tipoOperacao << ", Quantity: " << quantidade << std::endl;
+vector<Movimentacao> ControllerMovimentacao::listarMovimentacoesPorCarteira(int idCarteira) const {
+    return dao->listarPorCarteira(idCarteira);
 }
 
-void ControllerMovimentacao::displayMessage(const std::string& message) {
-    std::cout << "ControllerMovimentacao: " << message << std::endl;
+bool ControllerMovimentacao::atualizarMovimentacao(int idMovimento, const Date& novaData,
+                                                   char novoTipo, double novaQuantidade) 
+{
+    auto movimentacao = dao->buscarPorId(idMovimento);
+    if (movimentacao != nullptr) {
+        movimentacao->setDataOperacao(novaData);
+        movimentacao->setTipoOperacao(novoTipo);
+        movimentacao->setQuantidade(novaQuantidade);
+        return dao->atualizar(*movimentacao);
+    }
+    return false;
 }
 
+bool ControllerMovimentacao::excluirMovimentacao(int idMovimento) {
+    return dao->remover(idMovimento);
+}

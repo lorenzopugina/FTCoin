@@ -1,13 +1,14 @@
 #include "MovimentacaoDAOMemoria.h"
+#include <memory>
 
 void MovimentacaoDAOMemoria::salvar(const Movimentacao& movimentacao) {
     banco.push_back(movimentacao);
 }
 
-Movimentacao* MovimentacaoDAOMemoria::buscarPorId(int idMovimento) {
+std::shared_ptr<Movimentacao> MovimentacaoDAOMemoria::buscarPorId(int idMovimento) {
     for (const auto& mov : banco) {
         if (mov.getIdMovimento() == idMovimento) {
-            return new Movimentacao(mov); // lembrar de delete depois
+            return std::make_shared<Movimentacao>(mov);
         }
     }
     return nullptr;
@@ -26,7 +27,6 @@ std::vector<Movimentacao> MovimentacaoDAOMemoria::listarPorCarteira(int idCartei
 bool MovimentacaoDAOMemoria::atualizar(const Movimentacao& movimentacao) {
     for (auto& mov : banco) {
         if (mov.getIdMovimento() == movimentacao.getIdMovimento()) {
-            mov.setIdCarteira(movimentacao.getIdCarteira());
             mov.setDataOperacao(movimentacao.getDataOperacao());
             mov.setTipoOperacao(movimentacao.getTipoOperacao());
             mov.setQuantidade(movimentacao.getQuantidade());
