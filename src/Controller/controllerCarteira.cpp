@@ -1,53 +1,35 @@
 #include <string>
 #include <stdexcept>
+#include <memory>
 #include "controllerCarteira.h"
 
 
-CarteiraController::CarteiraController(unique_ptr<CarteiraDAO> dao, Menu& menu) 
-    : dao(move(dao)), menu(menu) {} //inicialização
+CarteiraController::CarteiraController(unique_ptr<CarteiraDAO> dao, Menu& menu) : dao(move(dao)), menu(menu){} 
 
-void CarteiraController::mostrarErro(const string& mensagem){
-    menu.setMessage("Erro: " + mensagem); //mensagem de erro se alguma tarefa do usuário n for realizada
+void CarteiraController::mostrarMensagem(const string& mensagem){
+    menu.setMessage(mensagem); 
 }
 
-void CarteiraController::mostrarSucesso(const string& mensagem) {
-    menu.setMessage("Sucesso: " + mensagem);//mensagem de sucesso se alguma tarefa do usuário for realizada
-}
-
-bool CarteiraController::carteiraExiste(int id) const {
-    return dao->buscar(id) != nullptr;//p/ ver se uma carteira ja existe, evitando duplicações
-}
-
-void CarteiraController::criarCarteira(int id, const string& titular, const string& corretora) {
+void CarteiraController::criarCarteira(const string& titular, const string& corretora) {
     try {
-        if (carteiraExiste(id)){
-            //verifcando se a carteira ja n existe
-            mostrarErro("Carteira com ID " + to_string(id) + " já existe!");
-            throw runtime_error("Carteira já existe");
-        }
-
-        Carteira novaCarteira(id, titular, corretora);
-        
-        if (!novaCarteira.estaValida()){
-            mostrarErro("Dados inválidos para a carteira!");
-            throw invalid_argument("Dados inválidos");
-        }
+        Carteira novaCarteira(titular, corretora);
 
         dao->criar(novaCarteira); //criando carteira
-        mostrarSucesso("Carteira criada com sucesso!");
+        mostrarMensagem("Carteira criada com sucesso!");
     } 
-    // falta o catch
-
+    catch(const std::exception& e){
+        mostrarMensagem(string("Erro ao criar carteira: ") + e.what());
+    }
 }
 
 unique_ptr<Carteira> CarteiraController::buscarCarteira(int id){
-     //busca uma carteira usando o id
+
     auto carteira = dao->buscar(id);
     if (!carteira){
-        mostrarErro("Carteira não encontrada!");
+        mostrarMensagem("Carteira não encontrada!");
         return nullptr;
     }
-    return carteira; //copilot sugeriu ptr_unique<Carteira> carteira;
+    return carteira; 
 }
 
 void CarteiraController::atualizarCarteira(int id, const string& novoTitular, const string& novaCorretora){

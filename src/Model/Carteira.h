@@ -1,5 +1,5 @@
-#ifndef CARTEIRA_HPP // revisar se é somente H
-#define CARTEIRA_HPP
+#ifndef CARTEIRA_H
+#define CARTEIRA_H
 
 #include <string>
 
@@ -11,23 +11,20 @@ private:
     int id;
     string nomeTitular;
     string corretora;
+    static int cont;
 
 public:
-    Carteira(); // ?
-    Carteira(int id, const string& titular, const string& corretora);
-    
+    Carteira(const string& titular, const string& corretora);
+
     ~Carteira();
 
     int getId() const;
     string getTitular() const;
     string getCorretora() const;
 
-    void setId(int id); // ?
+    void setId(); 
     void setTitular(const string& newTitular);
     void setCorretora(const string& newCorretora);
-
-    // Validação do model
-    bool estaValida() const;
 };
 
 #endif

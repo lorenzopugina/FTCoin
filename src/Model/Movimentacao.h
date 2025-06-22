@@ -12,10 +12,11 @@ private:
     int idMovimento;        
     Date  dataOperacao;  
     char tipoOperacao;      
-    double quantidade;      
+    double quantidade;   
+    static int cont;   
 
 public:
-    Movimentacao(int idCarteira, int idMovimento, const Date& dataOperacao, 
+    Movimentacao(int idCarteira, const Date& dataOperacao, 
                  char tipoOperacao, double quantidade);
 
     int getIdCarteira() const;
@@ -24,8 +25,7 @@ public:
     char getTipoOperacao() const;
     double getQuantidade() const;
 
-    void setIdCarteira(int id); 
-    void setIdMovimento(int id);
+    void setIdMovimento();
     void setDataOperacao(const Date& dataOperacao);
     void setTipoOperacao(char tipo);
     void setQuantidade(double qtd);

@@ -1,6 +1,3 @@
-
- // inspirado e alterado no do professor, colocar aquele blocão de comentário?
-
 #include <iomanip>
 #include <ctime>
 

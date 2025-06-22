@@ -8,16 +8,16 @@ private:
     Date data;
     double cotacao;
 
-    double gerarCotacaoAleatoria() const;  
-
 public:
-    Oraculo(const Date& data);  // construtor recebe a data e gera a cotação
+    Oraculo(const Date& data);  
 
     Date getData() const;
     double getCotacao() const;
 
     void setData(const Date& data);
     void setCotacao(double cotacao);
+
+    double gerarCotacaoAleatoria() const;  
 };
 
 #endif // ORACULO_H

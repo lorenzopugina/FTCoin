@@ -1,7 +1,7 @@
 #include "Oraculo.h"
 #include <random>  // para geração de números aleatórios
 
-// Construtor
+
 Oraculo::Oraculo(const Date& data)
     : data(data), cotacao(gerarCotacaoAleatoria()) {}
 

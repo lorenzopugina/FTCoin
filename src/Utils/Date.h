@@ -1,7 +1,3 @@
-
- // inspirado e alterado no do professor, colocar aquele blocão de comentário?
-
-
 #ifndef DATE_H_
 #define DATE_H_
 

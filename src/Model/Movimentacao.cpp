@@ -4,13 +4,15 @@
 #include <iomanip>
 #include <cctype>  //std::toupper
 
+int Movimentacao::cont = 0;
 
-Movimentacao::Movimentacao(int idCarteira, int idMovimento, const Date& dataOperacao, 
+
+Movimentacao::Movimentacao(int idCarteira, const Date& dataOperacao, 
                            char tipoOperacao, double quantidade)
 {
     // para passar pelas validações
-    setIdCarteira(idCarteira);
-    setIdMovimento(idMovimento);
+    this->idCarteira = idCarteira; // rever
+    setIdMovimento();
     setDataOperacao(dataOperacao);
     setTipoOperacao(tipoOperacao);
     setQuantidade(quantidade);
@@ -23,14 +25,8 @@ char Movimentacao::getTipoOperacao() const { return tipoOperacao; }
 double Movimentacao::getQuantidade() const { return quantidade; }
 
 
-void Movimentacao::setIdCarteira(int id) {
-    if (id <= 0) throw std::invalid_argument("ID da carteira deve ser positivo");
-    idCarteira = id;
-}
-
-void Movimentacao::setIdMovimento(int id) {
-    if (id <= 0) throw std::invalid_argument("ID do movimento deve ser positivo");
-    idMovimento = id;
+void Movimentacao::setIdMovimento() {
+    this->idMovimento = cont++;
 }
 
 void Movimentacao::setDataOperacao(const Date& data) {
