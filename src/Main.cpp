@@ -1,10 +1,74 @@
-int main() {
+#include <iostream>
+#include <memory>
+#include <vector>
 
-  // instanciar repositórios in-memory
-  // instanciar oráculo 
-  // instanciar serviços (Portfolio, Report)
-  // montar menus
-  // executar menu
-  
-  return 0;
+#include "./DAO/inMemory/CarteiraDAOMemoria.h"
+#include "./DAO/inMemory/MovimentacaoDAOMemoria.h"
+#include "./DAO/inMemory/OraculoDAOMemoria.h"
+
+#include "./Controller/controllerCarteira.h"
+#include "./Controller/controllerMovimentacao.h"
+#include "./Controller/controllerRelatorio.h"
+
+#include "./View/MenuCarteira.h"
+#include "./View/MenuMovimentacao.h"
+#include "./View/MenuRelatorio.h"
+#include "./View/Menu.h"
+
+using namespace std;
+
+int main() {
+    //Instanciar os DAOs (Banco em memória)
+    auto carteiraDAO = make_shared<CarteiraDAOMemoria>();
+    auto movimentacaoDAO = make_shared<MovimentacaoDAOMemoria>();
+    auto oraculoDAO = make_shared<OraculoDAOMemoria>();
+
+    //Instanciar os Controllers
+    auto carteiraController = make_shared<CarteiraController>(carteiraDAO);
+    auto movimentacaoController = make_shared<ControllerMovimentacao>(movimentacaoDAO); //ta invertido o nome arrumar no ingles
+    auto relatorioController = make_shared<RelatorioController>(carteiraDAO, movimentacaoDAO, oraculoDAO);
+
+    // Menu Principal
+    vector<string> opcoesMenu = {
+        "Carteira",
+        "Movimentação",
+        "Relatórios",
+        "Ajuda",
+        "Sair"
+    };
+
+    bool executando = true;
+    do {
+        Menu menu(opcoesMenu, "Menu Principal", "Escolha uma opção:");
+        int escolha = menu.getChoice();
+
+        switch (escolha) {
+            case 0: // Menu Carteira
+                menuCarteira(carteiraController);
+                break;
+            case 1: // Menu Movimentação
+                menuMovimentacao(movimentacaoController);
+                break;
+            case 2: // Menu Relatórios
+                menuRelatorio(relatorioController);
+                break;
+            case 3: { // Ajuda ------------------------------- Temos que fazer como arquivo depois
+                cout << "\n==== AJUDA ====\n";
+                cout << "Este sistema permite:\n";
+                cout << "- Gerenciar Carteiras (criar, buscar, atualizar e excluir)\n";
+                cout << "- Registrar Movimentações de compra e venda\n";
+                cout << "- Consultar relatórios, saldos, históricos e ganhos/perdas\n";
+                cout << "- As informações estão armazenadas em memória\n";
+                cout << "- O Oráculo fornece cotações simuladas\n";
+                cout << "================\n\n";
+                break;
+            }
+            case 4: // Sair
+                executando = false;
+                cout << "Saindo do sistema...\n";
+                break;
+        }
+    } while (executando);
+
+    return 0;
 }

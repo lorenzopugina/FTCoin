@@ -28,6 +28,15 @@ int Date::getYear() { return this->year; }
 int Date::getMonth() { return this->month; }
 int Date::getDay() { return this->day; }
 
+void Date::setDate(int day, int month, int year){
+	
+	if(isValidDate(day, month, year)){
+		this->day = day;
+		this->month = month;
+		this->year = year;
+	}
+}
+
 bool Date::isValidDate(int day, int month, int year) const {
 	if (day < 1 || month < 1 || month > 12 || year < 2000) return false; // rever o < 2000
 
@@ -38,12 +47,43 @@ bool Date::isValidDate(int day, int month, int year) const {
 	return day <= diasNoMes[month - 1]; 
 }
 
+bool Date::operator==(const Date &other) const{
+	return year == other.year && month == other.month && day == other.day;
+}
 
-// será q vai usar?
-std::string Date::toString() const {
-    std::ostringstream oss;
-    oss << std::setw(2) << std::setfill('0') << day << '/';
-    oss << std::setw(2) << std::setfill('0') << month << '/';
-    oss << std::setw(4) << std::setfill('0') << year;
-    return oss.str();
+bool Date::operator!=(const Date &other) const{
+	return !(*this == other);
+}
+
+bool Date::operator>(const Date &other) const{
+	if (year != other.year)
+		return year > other.year;
+	if (month != other.month)
+		return month > other.month;
+	return day > other.day;
+}
+
+bool Date::operator>=(const Date &other) const{
+	return (*this == other) || (*this > other);
+}
+
+bool Date::operator<(const Date &other) const{
+	return !(*this >= other);
+}
+
+bool Date::operator<=(const Date &other) const{
+	return !(*this > other);
+}
+
+ostream& operator<<(ostream &os, const Date &date){
+	os << setfill('0') << setw(4) << date.year << ".";
+	os << setfill('0') << setw(2) << date.month << ".";
+	os << setfill('0') << setw(2) << date.day;
+	return os;
+}
+
+istream& operator>>(std::istream &is, Date &date){
+	char separator;
+	is >> date.day >> separator >> date.month >> separator >> date.year;
+	return is;
 }

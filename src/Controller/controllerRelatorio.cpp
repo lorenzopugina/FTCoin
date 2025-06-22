@@ -1,53 +1,36 @@
 #include "controllerRelatorio.h"
 #include <algorithm>
 #include <stdexcept>
+#include "../Utils/Date.h"
 
 using namespace std;
 
-// Construtor
-RelatorioController::RelatorioController(CarteiraDAO* cDAO, MovimentacaoDAO* mDAO, OraculoDAO* oDAO)
+RelatorioController::RelatorioController(shared_ptr<CarteiraDAO> cDAO,
+                                         shared_ptr<MovimentacaoDAO> mDAO,
+                                         shared_ptr<OraculoDAO> oDAO)
     : carteiraDAO(cDAO), movimentacaoDAO(mDAO), oraculoDAO(oDAO) {}
 
-// Lista carteiras ordenadas por ID
-vector<Carteira> RelatorioController::listarCarteirasPorId() {
-    vector<Carteira> lista;
-
-    // Simula listagem buscando uma a uma
-    for (int id = 1;; id++) {
-        Carteira* c = carteiraDAO->buscar(id);
-        if (c == nullptr) break;
-        lista.push_back(*c);
-        delete c;
-    }
-
-    sort(lista.begin(), lista.end(), [](const Carteira& a, const Carteira& b) {
-        return a.getId() < b.getId();
-    });
-
-    return lista;
+std::vector<Carteira> RelatorioController::listarCarteirasPorId() {
+    auto carteiras = carteiraDAO->listarTodas();
+    std::sort(carteiras.begin(), carteiras.end(), 
+              [](const Carteira& a, const Carteira& b) {
+                  return a.getId() < b.getId();
+              });
+    return carteiras;
 }
 
-// Lista carteiras ordenadas por nome do titular
-vector<Carteira> RelatorioController::listarCarteirasPorNome() {
-    vector<Carteira> lista;
-
-    for (int id = 1;; id++) {
-        Carteira* c = carteiraDAO->buscar(id);
-        if (c == nullptr) break;
-        lista.push_back(*c);
-        delete c;
-    }
-
-    sort(lista.begin(), lista.end(), [](const Carteira& a, const Carteira& b) {
-        return a.getTitular() < b.getTitular();
-    });
-
-    return lista;
+std::vector<Carteira> RelatorioController::listarCarteirasPorTitular() {
+    auto carteiras = carteiraDAO->listarTodas();
+    std::sort(carteiras.begin(), carteiras.end(), 
+              [](const Carteira& a, const Carteira& b) {
+                  return a.getTitular() < b.getTitular();
+              });
+    return carteiras;
 }
 
-// Calcula saldo atual da carteira
 double RelatorioController::calcularSaldoCarteira(int idCarteira) {
     auto movimentacoes = movimentacaoDAO->listarPorCarteira(idCarteira);
+
     double saldo = 0.0;
 
     for (const auto& mov : movimentacoes) {
@@ -61,26 +44,31 @@ double RelatorioController::calcularSaldoCarteira(int idCarteira) {
     return saldo;
 }
 
-// Retorna histórico de movimentações da carteira
-vector<Movimentacao> RelatorioController::obterHistoricoCarteira(int idCarteira) {
+std::vector<Movimentacao> RelatorioController::obterHistoricoCarteira(int idCarteira) {
     return movimentacaoDAO->listarPorCarteira(idCarteira);
 }
 
-// Calcula ganho ou perda da carteira considerando cotações
-double RelatorioController::calcularGanhoPerda(int idCarteira) {
-    auto movimentacoes = movimentacaoDAO->listarPorCarteira(idCarteira);
-    double totalComprado = 0.0;
-    double totalVendido = 0.0;
+double RelatorioController::calcularGanhoPerda(int idCarteira) 
+{
+    double saldo = calcularSaldoCarteira(idCarteira);
 
-    for (const auto& mov : movimentacoes) {
-        double cotacao = oraculoDAO->buscarPorData(mov.getDataOperacao()).getCotacao();
+    if (saldo == 0) {return 0.0;}
 
-        if (mov.getTipoOperacao() == 'C') {
-            totalComprado += mov.getQuantidade() * cotacao;
-        } else if (mov.getTipoOperacao() == 'V') {
-            totalVendido += mov.getQuantidade() * cotacao;
+    // Obter histórico
+    auto historico = movimentacaoDAO->listarPorCarteira(idCarteira);
+
+    // Encontrar data da última movimentação
+    Date dataUltimaMovimentacao = historico.front().getDataOperacao();
+    for (const auto& mov : historico) {
+        if (mov.getDataOperacao() > dataUltimaMovimentacao) {
+            dataUltimaMovimentacao = mov.getDataOperacao();
         }
     }
 
-    return totalVendido - totalComprado;
+    Date hoje;
+    double cotacaoAntiga = oraculoDAO->buscarPorData(dataUltimaMovimentacao);
+    double cotacaoAtual = oraculoDAO->buscarPorData(hoje);
+
+    return (saldo * cotacaoAtual) - (saldo * cotacaoAntiga);
 }
+

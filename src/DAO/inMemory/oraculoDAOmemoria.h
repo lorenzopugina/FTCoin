@@ -10,7 +10,7 @@ private:
 
 public:
     void salvar(const Oraculo& oraculo) override;
-    Oraculo buscarPorData(const Date& data) override;
+    double buscarPorData(const Date& data) override;
     void atualizar(const Oraculo& oraculo) override;
     void removerPorData(const Date& data) override;
 };

@@ -8,26 +8,26 @@
 #include "../Model/Movimentacao.h"
 #include "../Model/Oraculo.h"
 #include <vector>
+#include <memory>
 
 using namespace std;
 
 class RelatorioController {
 private:
-    CarteiraDAO* carteiraDAO;
-    MovimentacaoDAO* movimentacaoDAO;
-    OraculoDAO* oraculoDAO;
+    shared_ptr<CarteiraDAO> carteiraDAO;
+    shared_ptr<MovimentacaoDAO> movimentacaoDAO;
+    shared_ptr<OraculoDAO> oraculoDAO;
 
 public:
-    RelatorioController(CarteiraDAO* cDAO, MovimentacaoDAO* mDAO, OraculoDAO* oDAO);
+    RelatorioController(shared_ptr<CarteiraDAO> carteiraDAO, shared_ptr<MovimentacaoDAO> movimentacaoDAO, 
+                                                             shared_ptr<OraculoDAO> oraculoDAO);
+    ~RelatorioController();
 
-    // Funcionalidades
     vector<Carteira> listarCarteirasPorId();
-    vector<Carteira> listarCarteirasPorNome();
-
+    vector<Carteira> listarCarteirasPorTitular();
     double calcularSaldoCarteira(int idCarteira);
-
     vector<Movimentacao> obterHistoricoCarteira(int idCarteira);
-
+    
     double calcularGanhoPerda(int idCarteira);
 };
 

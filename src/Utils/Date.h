@@ -11,6 +11,7 @@ class Date
 		int month;
 		int year;
 
+		// valida se é uma data possível
 		bool isValidDate(int day, int month, int year) const;
 
 	public:
@@ -22,7 +23,17 @@ class Date
 		int getMonth();
 		int getDay();
 
-		std::string toString() const; // sera q vai usar?
+		void setDate(int day, int month, int year);
+
+		bool operator==(const Date &other) const;
+		bool operator!=(const Date &other) const;
+		bool operator>(const Date &other) const;
+		bool operator>=(const Date &other) const;
+		bool operator<(const Date &other) const;
+		bool operator<=(const Date &other) const;
+
+		friend std::ostream& operator<<(std::ostream &os, const Date &date);
+		friend std::istream& operator>>(std::istream &is, Date &date);
 	};
 
 #endif /* DATE_H_ */
