@@ -1,7 +1,9 @@
 #ifndef CARTEIRADAO_H
 #define CARTEIRADAO_H
 
-#include "../Model/Carteira.h" 
+#include "../Model/Carteira.h"
+#include <memory>
+#include <vector>
 
 class CarteiraDAO {
 public:

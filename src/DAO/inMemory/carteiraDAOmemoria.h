@@ -3,6 +3,7 @@
 
 #include "../interface/carteiraDAO.h"
 #include <vector>
+#include <memory>
 
 class CarteiraDAOMemoria : public CarteiraDAO {
 private:

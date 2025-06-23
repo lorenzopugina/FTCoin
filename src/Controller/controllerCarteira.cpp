@@ -7,6 +7,8 @@ CarteiraController::CarteiraController(shared_ptr<CarteiraDAO> dao) {
     this->dao = dao;
 }
 
+CarteiraController::~CarteiraController() {}
+
 bool CarteiraController::criarCarteira(const string& titular, const string& corretora) {
     try {
         Carteira carteira(titular, corretora);

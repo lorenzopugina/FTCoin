@@ -3,6 +3,7 @@
 
 #include "../Interface/movimentacaoDAO.h"
 #include <vector>
+#include <memory>
 
 class MovimentacaoDAOMemoria : public MovimentacaoDAO {
 private:

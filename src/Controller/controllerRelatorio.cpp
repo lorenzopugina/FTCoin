@@ -10,6 +10,8 @@ RelatorioController::RelatorioController(shared_ptr<CarteiraDAO> cDAO,
                                          shared_ptr<OraculoDAO> oDAO)
     : carteiraDAO(cDAO), movimentacaoDAO(mDAO), oraculoDAO(oDAO) {}
 
+RelatorioController::~RelatorioController() {}
+
 std::vector<Carteira> RelatorioController::listarCarteirasPorId() {
     auto carteiras = carteiraDAO->listarTodas();
     std::sort(carteiras.begin(), carteiras.end(), 

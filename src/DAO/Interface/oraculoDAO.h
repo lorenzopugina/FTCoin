@@ -3,6 +3,7 @@
 
 #include "../Model/Oraculo.h"
 #include <vector>
+#include <memory>
 
 class OraculoDAO {
 public:

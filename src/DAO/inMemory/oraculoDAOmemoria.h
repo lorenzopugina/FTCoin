@@ -3,6 +3,7 @@
 
 #include "../interface/oraculoDAO.h"
 #include <vector>
+#include <memory>
 
 class OraculoDAOMemoria : public OraculoDAO {
 private:

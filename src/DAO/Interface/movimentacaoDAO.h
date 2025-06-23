@@ -3,6 +3,7 @@
 
 #include "Movimentacao.h"
 #include <vector>
+#include <memory>
 
 class MovimentacaoDAO {
 public:
