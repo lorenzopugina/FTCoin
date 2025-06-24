@@ -16,40 +16,40 @@ void Menu::setDecorator(const string &symbol, int width)
 	this->width = width;
 	}
 
-const int Menu::getChoice()
-{
-	unsigned long choice;
-	bool firstTime = true;
-	string decorator = makeDecorator();
+const int Menu::getChoice() {
+    unsigned long choice;
+    bool firstTime = true;
+    string decorator = makeDecorator();
 
-	do
-	{
-		if (repeatList || firstTime)
-		{
-			unsigned long index = 0;
-			cout << decorator << endl;
-			cout << title << endl;
-			cout << decorator << endl;
+    do {
+        if (repeatList || firstTime) {
+            unsigned long index = 0;
+            cout << decorator << endl;
+            cout << title << endl;
+            cout << decorator << endl;
 
-			for (index = 0; index < ((itens.size() - (zeroForLastOpt ? 1 : 0))); index++){
-				cout << (index + (zeroForLastOpt ? 1 : 00)) << " - " << itens.at(index) << endl;
-			}
-			cout << decorator << endl;
+            for (index = 0; index < (itens.size() - (zeroForLastOpt ? 1 : 0)); index++) {
+                cout << (index + 1) << " - " << itens.at(index) << endl;
+            }
+            cout << decorator << endl;
 
-			if (zeroForLastOpt){
-				cout << 0 << " - " << itens.at(index) << endl;
-				cout << decorator << endl;
-			}
+            if (zeroForLastOpt) {
+                cout << 0 << " - " << itens.at(index) << endl;
+                cout << decorator << endl;
+            }
 
-			firstTime = false;
-		}
-		cout << message << endl;
-		cin >> choice;
+            firstTime = false;
+        }
+        cout << message << endl;
+        cin >> choice;
+    } while (isNotAValidChoice(choice));
+    cin.ignore();
+
+    if (zeroForLastOpt && choice == 0) {
+    	return itens.size() - 1; // Retorna o índice do último item, que é o "Sair"
+	} else {
+    	return choice - 1; // As outras opções são mapeadas normalmente (1 → 0, 2 → 1, etc.)
 	}
-	while (isNotAValidChoice(choice));
-	cin.ignore();
-
-	return (choice);
 }
 
 const string Menu::makeDecorator()
@@ -67,8 +67,12 @@ const string Menu::makeDecorator()
 	return (replicate(symbol, width));
 }
 
-const bool Menu::isNotAValidChoice(unsigned long choice) const{
-	return ((choice < 0) || (choice > (itens.size() - 1)));
+const bool Menu::isNotAValidChoice(unsigned long choice) const {
+    if (zeroForLastOpt) {
+        return (choice > itens.size() - 1); // 0 até itens.size() -1 são válidos
+    } else {
+        return (choice < 1 || choice > itens.size());
+    }
 }
 
 const string Menu::replicate(string text, int times) const

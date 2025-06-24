@@ -1,36 +1,19 @@
-# Compilador e flags
+# Nome do executável
+TARGET = programa
+
+# Compilador
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I./
 
-# Diretórios
-SRC_DIR = ./src
-BUILD_DIR = ./build
-BIN_DIR = ./bin
+# Flags de compilação (incluindo os diretórios dos headers)
+CXXFLAGS = -I src/Controller -I src/Model -I src/Utils -I src/View -I src/DAO/inMemory -I src/DAO/interface
 
-# Arquivo executável
-TARGET = $(BIN_DIR)/app
-
-# Procurar todos os arquivos .cpp no diretório src
-SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
-OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
+# Diretórios dos arquivos fonte
+SRC = src/*.cpp src/Controller/*.cpp src/Model/*.cpp src/Utils/*.cpp src/View/*.cpp src/DAO/inMemory/*.cpp
 
 # Regra padrão
-all: $(TARGET)
+all:
+	$(CXX) $(SRC) $(CXXFLAGS) -o $(TARGET)
 
-# Regra para o executável
-$(TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
-
-# Regra para gerar os objetos
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Limpar objetos e binários
+# Limpar arquivos binários (opcional)
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
-
-# Executar o programa
-run: all
-	./$(TARGET)
+	del $(TARGET).exe

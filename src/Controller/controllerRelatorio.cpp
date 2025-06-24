@@ -1,6 +1,7 @@
 #include "controllerRelatorio.h"
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
 #include "../Utils/Date.h"
 
 using namespace std;
@@ -12,27 +13,26 @@ RelatorioController::RelatorioController(shared_ptr<CarteiraDAO> cDAO,
 
 RelatorioController::~RelatorioController() {}
 
-std::vector<Carteira> RelatorioController::listarCarteirasPorId() {
+vector<Carteira> RelatorioController::listarCarteirasPorId() {
     auto carteiras = carteiraDAO->listarTodas();
-    std::sort(carteiras.begin(), carteiras.end(), 
-              [](const Carteira& a, const Carteira& b) {
-                  return a.getId() < b.getId();
-              });
+    sort(carteiras.begin(), carteiras.end(),
+        [](const Carteira& a, const Carteira& b) {
+            return a.getId() < b.getId();
+        });
     return carteiras;
 }
 
-std::vector<Carteira> RelatorioController::listarCarteirasPorTitular() {
+vector<Carteira> RelatorioController::listarCarteirasPorTitular() {
     auto carteiras = carteiraDAO->listarTodas();
-    std::sort(carteiras.begin(), carteiras.end(), 
-              [](const Carteira& a, const Carteira& b) {
-                  return a.getTitular() < b.getTitular();
-              });
+    sort(carteiras.begin(), carteiras.end(),
+        [](const Carteira& a, const Carteira& b) {
+            return a.getTitular() < b.getTitular();
+        });
     return carteiras;
 }
 
 double RelatorioController::calcularSaldoCarteira(int idCarteira) {
     auto movimentacoes = movimentacaoDAO->listarPorCarteira(idCarteira);
-
     double saldo = 0.0;
 
     for (const auto& mov : movimentacoes) {
@@ -46,18 +46,22 @@ double RelatorioController::calcularSaldoCarteira(int idCarteira) {
     return saldo;
 }
 
-std::vector<Movimentacao> RelatorioController::obterHistoricoCarteira(int idCarteira) {
+vector<Movimentacao> RelatorioController::obterHistoricoCarteira(int idCarteira) {
     return movimentacaoDAO->listarPorCarteira(idCarteira);
 }
 
-double RelatorioController::calcularGanhoPerda(int idCarteira) 
-{
-    double saldo = calcularSaldoCarteira(idCarteira);
-
-    if (saldo == 0) {return 0.0;}
-
-    // Obter histórico
+double RelatorioController::calcularGanhoPerda(int idCarteira) {
     auto historico = movimentacaoDAO->listarPorCarteira(idCarteira);
+
+    if (historico.empty()) {
+        cout << "Carteira sem movimentações.\n";
+        return 0.0;
+    }
+
+    double saldo = calcularSaldoCarteira(idCarteira);
+    if (saldo == 0) {
+        return 0.0;
+    }
 
     // Encontrar data da última movimentação
     Date dataUltimaMovimentacao = historico.front().getDataOperacao();
@@ -73,4 +77,3 @@ double RelatorioController::calcularGanhoPerda(int idCarteira)
 
     return (saldo * cotacaoAtual) - (saldo * cotacaoAntiga);
 }
-
