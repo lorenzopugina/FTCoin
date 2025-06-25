@@ -10,10 +10,12 @@
 #include "./Controller/controllerMovimentacao.h"
 #include "./Controller/controllerRelatorio.h"
 
+#include "./View/Ajuda.h"
 #include "./View/MenuCarteira.h"
 #include "./View/MenuMovimentacao.h"
 #include "./View/MenuRelatorio.h"
 #include "./View/Menu.h"
+
 
 using namespace std;
 
@@ -40,6 +42,7 @@ int main() {
     bool executando = true;
     do {
         Menu menu(opcoesMenu, "Menu Principal", "Escolha uma opcao:");
+
         int escolha = menu.getChoice();
 
         switch (escolha) {
@@ -52,15 +55,9 @@ int main() {
             case 2: // Menu Relatórios
                 menuRelatorio(relatorioController);
                 break;
-            case 3: { // Ajuda ------------------------------- Temos que fazer como arquivo depois
-                cout << "\n==== AJUDA ====\n";
-                cout << "Este sistema permite:\n";
-                cout << "- Gerenciar Carteiras (criar, buscar, atualizar e excluir)\n";
-                cout << "- Registrar Movimentacoes de compra e venda\n";
-                cout << "- Consultar relatórios, saldos, históricos e ganhos/perdas\n";
-                cout << "- As informações estão armazenadas em memória\n";
-                cout << "- O Oráculo fornece cotações simuladas\n";
-                cout << "================\n\n";
+            case 3: { // Ajuda
+                Ajuda ajuda("ajuda.txt");
+                ajuda.exibir();
                 break;
             }
             case 4: // Sair

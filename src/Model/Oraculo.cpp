@@ -14,8 +14,8 @@ void Oraculo::setCotacao(double cotacao){ this->cotacao = cotacao;}
 
 // Geração de cotação aleatória entre 0.8 e 2.4
 double Oraculo::gerarCotacaoAleatoria() const {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    static std::mt19937 gen(std::random_device{}()); // inicializa só na 1ª vez
     std::uniform_real_distribution<> distrib(0.8, 2.4);
     return distrib(gen);
 }
+

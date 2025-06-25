@@ -1,0 +1,24 @@
+====== AJUDA DO SISTEMA ======
+
+Bem-vindo ao sistema de controle de carteiras!
+
+Opções disponíveis:
+
+1. Carteiras
+   - Criar, atualizar, remover e buscar carteiras de investimento.
+
+2. Movimentações
+   - Registrar compras e vendas de ativos com datas e quantidades.
+
+3. Relatórios
+   - Consultar saldos, históricos e simulações de ganhos/perdas.
+
+Todas as informações são salvas em memória.
+
+==============================
+
+Criadores: Lorenzo, Joao, Ana, Maria, Adriano
+
+==============================
+
+

@@ -1,9 +1,10 @@
 #include "Carteira.h"
 #include <stdexcept> 
+#include <iostream>
 
 using namespace std;
 
-int Carteira::cont = 0;
+int Carteira::cont = 1;
 
 Carteira::Carteira(const string& titular, const string& corretora) 
 {
@@ -19,7 +20,14 @@ string Carteira::getTitular() const { return nomeTitular;}
 string Carteira::getCorretora() const { return corretora;}
 
 
-void Carteira::setId() {id = cont++;} // id automatico
+void Carteira::setId() {
+    id = cont++; // id automatico
+
+    std::cout << "\033[2J\033[H"; // limpa a tela
+    std::cout << "\033[1;32m";    // verde brilhante
+    cout << "Carteira criada com ID: " << id << endl;
+    std::cout << "\033[0m";       // reset para cor padrão
+} 
 
 void Carteira::setTitular(const string& titular) {
    

@@ -72,11 +72,12 @@ double RelatorioController::calcularGanhoPerda(int idCarteira) {
     }
 
     Date hoje;
+    //se nao tiver ou ja tiver oraculo de hj como fica?
     double cotacaoAntiga = oraculoDAO->buscarPorData(dataUltimaMovimentacao);
     double cotacaoAtual = oraculoDAO->buscarPorData(hoje);
 
     //------- altera isso
-    std::cout << "tem coisa: " << historico.empty() << std::endl;
+    std::cout << "ta vazia: " << historico.empty() << std::endl;
     std::cout << "cotação antiga: " << cotacaoAntiga << std::endl;
     std::cout << "cotação atual: " << cotacaoAtual << std::endl;
 

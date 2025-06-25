@@ -22,7 +22,8 @@ void menuMovimentacao(shared_ptr<ControllerMovimentacao> ControllerMovimentacao)
         Menu menu(itens, "Menu Movimentacao", "Escolha uma opcao:");
         int opcao = menu.getChoice();
 
-        switch (opcao) {
+        switch (opcao) 
+        {
             case 0: { // Criar
                 int idCarteira;
                 int dia;

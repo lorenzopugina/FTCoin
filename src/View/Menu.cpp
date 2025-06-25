@@ -20,10 +20,11 @@ const int Menu::getChoice() {
     unsigned long choice;
     bool firstTime = true;
     string decorator = makeDecorator();
-
+	
     do {
         if (repeatList || firstTime) {
             unsigned long index = 0;
+			
             cout << decorator << endl;
             cout << title << endl;
             cout << decorator << endl;
@@ -42,6 +43,7 @@ const int Menu::getChoice() {
         }
         cout << message << endl;
         cin >> choice;
+		
     } while (isNotAValidChoice(choice));
     cin.ignore();
 
@@ -67,11 +69,21 @@ const string Menu::makeDecorator()
 	return (replicate(symbol, width));
 }
 
+// -----------------------------------------------------------------------------------------------------
 const bool Menu::isNotAValidChoice(unsigned long choice) const {
     if (zeroForLastOpt) {
-        return (choice > itens.size() - 1); // 0 até itens.size() -1 são válidos
+		bool teste = (choice > itens.size() - 1);
+		if (teste == 0){
+			std::cout << "\033c";
+		}
+
+        return teste; // 0 até itens.size() -1 são válidos
     } else {
-        return (choice < 1 || choice > itens.size());
+		bool teste =(choice < 1 || choice > itens.size());
+		if (teste == 0){
+			std::cout << "\033c";
+		}
+        return teste;
     }
 }
 
