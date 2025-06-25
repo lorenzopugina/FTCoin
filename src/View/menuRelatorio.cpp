@@ -13,14 +13,14 @@ void menuRelatorio(shared_ptr<RelatorioController> relatorioController) {
         "Listar Carteiras por ID",
         "Listar Carteiras por Titular",
         "Ver Saldo de uma Carteira",
-        "Ver Histórico de uma Carteira",
+        "Ver Historico de uma Carteira",
         "Ver Ganho/Perda de uma Carteira",
         "Voltar"
     };
 
     bool executando = true;
     do {
-        Menu menu(itens, "Menu Relatório", "Escolha uma opção:");
+        Menu menu(itens, "Menu Relatorio", "Escolha uma opcao:");
         int opcao = menu.getChoice();
 
         switch (opcao) {
@@ -56,7 +56,7 @@ void menuRelatorio(shared_ptr<RelatorioController> relatorioController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Entrada inválida.\n";
+                    cout << "Entrada invalida.\n";
                     break;
                 }
                 cin.ignore();
@@ -70,16 +70,16 @@ void menuRelatorio(shared_ptr<RelatorioController> relatorioController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Entrada inválida.\n";
+                    cout << "Entrada invalida.\n";
                     break;
                 }
                 cin.ignore();
                 auto historico = relatorioController->obterHistoricoCarteira(id);
                 if (historico.empty()) {
-                    cout << "Nenhuma movimentação encontrada.\n";
+                    cout << "Nenhuma movimentacao encontrada.\n";
                 } else {
                     for (const auto& mov : historico) {
-                        cout << "ID Movimentação: " << mov.getIdMovimento()
+                        cout << "ID Movimentacao: " << mov.getIdMovimento()
                              << " | Data: " << mov.getDataOperacao()
                              << " | Tipo: " << mov.getTipoOperacao()
                              << " | Quantidade: " << mov.getQuantidade() << "\n";
@@ -93,7 +93,7 @@ void menuRelatorio(shared_ptr<RelatorioController> relatorioController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Entrada inválida.\n";
+                    cout << "Entrada invalida.\n";
                     break;
                 }
                 cin.ignore();

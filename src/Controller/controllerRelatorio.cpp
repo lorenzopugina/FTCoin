@@ -75,5 +75,12 @@ double RelatorioController::calcularGanhoPerda(int idCarteira) {
     double cotacaoAntiga = oraculoDAO->buscarPorData(dataUltimaMovimentacao);
     double cotacaoAtual = oraculoDAO->buscarPorData(hoje);
 
+    //------- altera isso
+    std::cout << "tem coisa: " << historico.empty() << std::endl;
+    std::cout << "cotação antiga: " << cotacaoAntiga << std::endl;
+    std::cout << "cotação atual: " << cotacaoAtual << std::endl;
+
+
+    // return burro
     return (saldo * cotacaoAtual) - (saldo * cotacaoAntiga);
 }

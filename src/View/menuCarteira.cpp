@@ -18,7 +18,7 @@ void menuCarteira(shared_ptr<CarteiraController> carteiraController) {
 
     bool executando = true;
     do {
-        Menu menu(itens, "Menu Carteira", "Escolha uma opção:");
+        Menu menu(itens, "Menu Carteira", "Escolha uma opcao:");
         int opcao = menu.getChoice();
 
         switch (opcao) {
@@ -46,7 +46,7 @@ void menuCarteira(shared_ptr<CarteiraController> carteiraController) {
                     cout << "Titular: " << carteira->getTitular() << "\n";
                     cout << "Corretora: " << carteira->getCorretora() << "\n";
                 } else {
-                    cout << "Carteira não encontrada.\n";
+                    cout << "Carteira nao encontrada.\n";
                 }
                 break;
             }
@@ -64,7 +64,7 @@ void menuCarteira(shared_ptr<CarteiraController> carteiraController) {
                 if (carteiraController->atualizarCarteira(id, titular, corretora))
                     cout << "Carteira atualizada!\n";
                 else
-                    cout << "Carteira não encontrada.\n";
+                    cout << "Carteira nao encontrada.\n";
                 break;
             }
             case 3: { // Excluir
@@ -73,9 +73,9 @@ void menuCarteira(shared_ptr<CarteiraController> carteiraController) {
                 cin >> id; cin.ignore();
 
                 if (carteiraController->excluirCarteira(id))
-                    cout << "Carteira excluída.\n";
+                    cout << "Carteira excluida.\n";
                 else
-                    cout << "Carteira não encontrada.\n";
+                    cout << "Carteira nao encontrada.\n";
                 break;
             }
             case 4:

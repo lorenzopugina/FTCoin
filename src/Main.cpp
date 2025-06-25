@@ -25,21 +25,21 @@ int main() {
 
     //Instanciar os Controllers
     auto carteiraController = make_shared<CarteiraController>(carteiraDAO);
-    auto movimentacaoController = make_shared<ControllerMovimentacao>(movimentacaoDAO); //ta invertido o nome arrumar no ingles
+    auto movimentacaoController = make_shared<ControllerMovimentacao>(movimentacaoDAO, oraculoDAO); // ta invertido o nome arrumar no ingles
     auto relatorioController = make_shared<RelatorioController>(carteiraDAO, movimentacaoDAO, oraculoDAO);
 
     // Menu Principal
     vector<string> opcoesMenu = {
         "Carteira",
-        "Movimentação",
-        "Relatórios",
+        "Movimentacao",
+        "Relatorios",
         "Ajuda",
         "Sair"
     };
 
     bool executando = true;
     do {
-        Menu menu(opcoesMenu, "Menu Principal", "Escolha uma opção:");
+        Menu menu(opcoesMenu, "Menu Principal", "Escolha uma opcao:");
         int escolha = menu.getChoice();
 
         switch (escolha) {
@@ -56,7 +56,7 @@ int main() {
                 cout << "\n==== AJUDA ====\n";
                 cout << "Este sistema permite:\n";
                 cout << "- Gerenciar Carteiras (criar, buscar, atualizar e excluir)\n";
-                cout << "- Registrar Movimentações de compra e venda\n";
+                cout << "- Registrar Movimentacoes de compra e venda\n";
                 cout << "- Consultar relatórios, saldos, históricos e ganhos/perdas\n";
                 cout << "- As informações estão armazenadas em memória\n";
                 cout << "- O Oráculo fornece cotações simuladas\n";

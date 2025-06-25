@@ -2,8 +2,11 @@
 
 using namespace std;
 
-ControllerMovimentacao::ControllerMovimentacao(shared_ptr<MovimentacaoDAO> dao) {
+ControllerMovimentacao::ControllerMovimentacao(shared_ptr<MovimentacaoDAO> dao,
+                                               shared_ptr<OraculoDAO> oraculoDAO)
+{
     this->dao = dao;
+    this->oraculoDAO = oraculoDAO;
 }
 
 bool ControllerMovimentacao::criarMovimentacao(int idCarteira, const Date& dataOperacao, 
@@ -12,11 +15,16 @@ bool ControllerMovimentacao::criarMovimentacao(int idCarteira, const Date& dataO
     try {
         Movimentacao movimentacao(idCarteira, dataOperacao, tipoOperacao, quantidade);
         dao->salvar(movimentacao);
+
+        Oraculo oraculo(dataOperacao);
+        oraculoDAO->salvar(oraculo);
+
         return true;
     } catch (const invalid_argument&) {
         return false;
     }
 }
+
 
 shared_ptr<Movimentacao> ControllerMovimentacao::buscarMovimentacao(int idMovimento) const {
     return dao->buscarPorId(idMovimento);

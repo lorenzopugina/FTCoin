@@ -9,8 +9,8 @@ Date::Date(){
 	time_t now = time(NULL);
 	tm *currentTime = localtime(&now);
 	day = currentTime->tm_mday;
-	month = currentTime->tm_mon; // talvez +1
-	year = currentTime->tm_year; // talvez +1900
+	month = currentTime->tm_mon+1; 
+	year = currentTime->tm_year+1900; 
 }
 
 Date::Date(int day, int month, int year) {
@@ -76,9 +76,9 @@ bool Date::operator<=(const Date &other) const{
 }
 
 ostream& operator<<(ostream &os, const Date &date){
-	os << setfill('0') << setw(4) << date.year << ".";
+	os << setfill('0') << setw(2) << date.day<< ".";
 	os << setfill('0') << setw(2) << date.month << ".";
-	os << setfill('0') << setw(2) << date.day;
+	os << setfill('0') << setw(4) << date.year ;
 	return os;
 }
 
