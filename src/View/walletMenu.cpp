@@ -1,5 +1,6 @@
 #include "walletMenu.h"
 #include "Menu.h"
+#include "../Utils/Message.h"
 
 #include <iostream>
 #include <vector>
@@ -30,9 +31,9 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 getline(cin, broker);
 
                 if (walletController->createWallet(holder, broker))
-                    cout << "Wallet successfully created!\n";
+                    Message::showSuccess("Wallet successfully created!");
                 else
-                    cout << "Error creating wallet.\n";
+                    Message::showError("Error creating wallet.");
                 break;
             }
             case 1: { // Find
@@ -45,9 +46,8 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                     cout << "ID: " << wallet->getId() << "\n";
                     cout << "Holder: " << wallet->getHolder() << "\n";
                     cout << "Broker: " << wallet->getBrokerage() << "\n";
-                } else {
-                    cout << "Wallet not found.\n";
-                }
+                } else 
+                    Message::showError("Wallet not found.");
                 break;
             }
             case 2: { // Update
@@ -62,9 +62,9 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 getline(cin, broker);
 
                 if (walletController->updateWallet(id, holder, broker))
-                    cout << "Wallet updated!\n";
+                    Message::showSuccess("Wallet updated!");	
                 else
-                    cout << "Wallet not found.\n";
+                    Message::showError("Wallet not found.");
                 break;
             }
             case 3: { // Delete
@@ -73,9 +73,9 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 cin >> id; cin.ignore();
 
                 if (walletController->deleteWallet(id))
-                    cout << "Wallet deleted.\n";
+                    Message::showSuccess("Wallet deleted.");
                 else
-                    cout << "Wallet not found.\n";
+                    Message::showError("Wallet not found.");	
                 break;
             }
             case 4:

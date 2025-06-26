@@ -29,7 +29,8 @@ public:
     vector<Wallet> listWalletsByHolder();
     double calculateWalletBalance(int walletId);
     vector<Transaction> getWalletHistory(int walletId);
-    double calculateGainLoss(int walletId);
+    double calculateRecentGainLoss(int walletId);
+    double calculateOldGainLoss(int walletId);
 };
 
 #endif

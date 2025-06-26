@@ -31,7 +31,8 @@ vector<Wallet> ReportController::listWalletsByHolder() {
     return wallets;
 }
 
-double ReportController::calculateWalletBalance(int walletId) {
+double ReportController::calculateWalletBalance(int walletId)
+{
     auto transactions = transactionDAO->listByWallet(walletId);
     double balance = 0.0;
 
@@ -50,35 +51,47 @@ vector<Transaction> ReportController::getWalletHistory(int walletId) {
     return transactionDAO->listByWallet(walletId);
 }
 
-double ReportController::calculateGainLoss(int walletId) {
+double ReportController::calculateRecentGainLoss(int walletId) 
+{
     auto history = transactionDAO->listByWallet(walletId);
-
-    if (history.empty()) {
-        cout << "Wallet has no transactions.\n";
-        return 0.0;
-    }
-
     double balance = calculateWalletBalance(walletId);
-    if (balance == 0) {
-        return 0.0;
-    }
 
-    // Get date of last transaction
-    Date lastDate = history.front().getOperationDate();
+    if (history.empty() || balance == 0) { return 0.0; }
+
+    // Get date of newest transaction
+    Date newestTransaction = history.front().getOperationDate();
     for (const auto& t : history) {
-        if (t.getOperationDate() > lastDate) {
-            lastDate = t.getOperationDate();
+        if (t.getOperationDate() > newestTransaction) {
+            newestTransaction = t.getOperationDate();
         }
     }
 
     Date today;
-    double oldQuotation = oracleDAO->findByDate(lastDate);
+    double oldQuotation = oracleDAO->findByDate(newestTransaction);
     double currentQuotation = oracleDAO->findByDate(today);
 
-    // Debug output (can be removed in final version)
-    cout << "Is empty: " << history.empty() << endl;
-    cout << "Old quotation: " << oldQuotation << endl;
-    cout << "Current quotation: " << currentQuotation << endl;
+    return (balance * currentQuotation) - (balance * oldQuotation);
+}
+
+
+double ReportController::calculateOldGainLoss(int walletId) 
+{
+    auto history = transactionDAO->listByWallet(walletId);
+    double balance = calculateWalletBalance(walletId);
+
+    if (history.empty() || balance == 0) { return 0.0; }
+
+    // Get date of oldest transaction
+    Date oldestTransaction = history.front().getOperationDate();
+    for (const auto& t : history) {
+        if (t.getOperationDate() < oldestTransaction) {
+            oldestTransaction = t.getOperationDate();
+        }
+    }
+
+    Date today;
+    double oldQuotation = oracleDAO->findByDate(oldestTransaction);
+    double currentQuotation = oracleDAO->findByDate(today);
 
     return (balance * currentQuotation) - (balance * oldQuotation);
 }

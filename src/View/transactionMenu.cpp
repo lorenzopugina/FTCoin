@@ -1,6 +1,7 @@
 #include "transactionMenu.h"
 #include "Menu.h"
 #include "../Utils/Date.h"
+#include "../Utils/Message.h"
 
 #include <iostream>
 #include <vector>
@@ -50,9 +51,9 @@ void transactionMenu(shared_ptr<TransactionController> transactionController) {
                 cin >> quantity;
 
                 if (transactionController->createTransaction(walletId, date, type, quantity))
-                    cout << "Transaction created!\n";
+                    Message::showSuccess("Transaction created!");
                 else
-                    cout << "Error creating transaction.\n";
+                    Message::showError("Error creating transaction.");
                 break;
             }
             case 1: { // Find
@@ -67,9 +68,8 @@ void transactionMenu(shared_ptr<TransactionController> transactionController) {
                     cout << "Date: " << tx->getOperationDate() << "\n";
                     cout << "Type: " << tx->getOperationType() << "\n";
                     cout << "Quantity: " << tx->getQuantity() << "\n";
-                } else {
-                    cout << "Transaction not found.\n";
-                }
+                } else 
+                    Message::showError("Transaction not found.\n");
                 break;
             }
             case 2: { // Update
@@ -93,10 +93,9 @@ void transactionMenu(shared_ptr<TransactionController> transactionController) {
                 Date date(day, month, year);
 
                 if (transactionController->updateTransaction(id, date, type, quantity))
-                    cout << "Transaction updated!\n";
+                    Message::showSuccess("Transaction updated!\n");
                 else
-                    cout << "Transaction not found.\n";
-
+                    Message::showError("Transaction not found.\n");
                 break;
             }
 
@@ -106,9 +105,9 @@ void transactionMenu(shared_ptr<TransactionController> transactionController) {
                 cin >> id; cin.ignore();
 
                 if (transactionController->deleteTransaction(id))
-                    cout << "Transaction deleted.\n";
+                    Message::showSuccess("Transaction deleted!\n");
                 else
-                    cout << "Transaction not found.\n";
+                    Message::showError("Transaction not found.\n");
                 break;
             }
             case 4:

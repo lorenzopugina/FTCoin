@@ -1,5 +1,6 @@
 #include "reportMenu.h"
 #include "Menu.h"
+#include "../Utils/Message.h"
 
 #include <iostream>
 #include <vector>
@@ -27,7 +28,7 @@ void reportMenu(shared_ptr<ReportController> reportController) {
             case 0: { // List by ID
                 auto list = reportController->listWalletsById();
                 if (list.empty()) {
-                    cout << "No wallets found.\n";
+                    Message::showError("No wallets found.");
                 } else {
                     for (const auto& w : list) {
                         cout << "ID: " << w.getId()
@@ -40,7 +41,7 @@ void reportMenu(shared_ptr<ReportController> reportController) {
             case 1: { // List by Holder
                 auto list = reportController->listWalletsByHolder();
                 if (list.empty()) {
-                    cout << "No wallets found.\n";
+                    Message::showError("No wallets found.");
                 } else {
                     for (const auto& w : list) {
                         cout << "ID: " << w.getId()
@@ -56,7 +57,7 @@ void reportMenu(shared_ptr<ReportController> reportController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Invalid input.\n";
+                    Message::showError("Invalid input.");
                     break;
                 }
                 cin.ignore();
@@ -70,13 +71,13 @@ void reportMenu(shared_ptr<ReportController> reportController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Invalid input.\n";
+                    Message::showError("Invalid input.");
                     break;
                 }
                 cin.ignore();
                 auto history = reportController->getWalletHistory(id);
                 if (history.empty()) {
-                    cout << "No transactions found.\n";
+                    Message::showError("No transactions found.\n");
                 } else {
                     for (const auto& t : history) {
                         cout << "Transaction ID: " << t.getTransactionId()
@@ -93,12 +94,14 @@ void reportMenu(shared_ptr<ReportController> reportController) {
                 if (!(cin >> id)) {
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    cout << "Invalid input.\n";
+                    Message::showError("Invalid input.");
                     break;
                 }
                 cin.ignore();
-                double gain = reportController->calculateGainLoss(id);
-                cout << "Current Gain/Loss: " << gain << "\n";
+                double oldGain = reportController->calculateOldGainLoss(id);
+                double newGain = reportController->calculateRecentGainLoss(id);
+                cout << "Gain/Loss based on oldest transaction: " << oldGain << "\n";
+                cout << "Current Gain/Loss: " << newGain << "\n";
                 break;
             }
             case 5:

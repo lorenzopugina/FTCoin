@@ -22,9 +22,7 @@ void Wallet::setId() {
     id = counter++;
 
     cout << "\033[2J\033[H"; // clear screen
-    cout << "\033[1;32m";    // bright green
     cout << "Wallet created with ID: " << id << endl;
-    cout << "\033[0m";       // reset to default color
 }
 
 void Wallet::setHolder(const string& holder) {

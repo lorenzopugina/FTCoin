@@ -1,6 +1,8 @@
 #include <math.h>
 #include "Menu.h"
 
+using namespace std;
+
 Menu::Menu(vector<string> &itens, string title, string message) :
 		itens(itens), title(title), message(message)
 {
@@ -25,7 +27,7 @@ const int Menu::getChoice() {
             unsigned long index = 0;
 			
             cout << decorator << endl;
-            cout << title << endl;
+			cout << "\033[33m" << title << endl << "\033[0m";  // yellow and default color
             cout << decorator << endl;
 
             for (index = 0; index < (itens.size() - (zeroForLastOpt ? 1 : 0)); index++) {
@@ -72,14 +74,14 @@ const bool Menu::isNotAValidChoice(unsigned long choice) const {
     if (zeroForLastOpt) {
 		bool validation = (choice > itens.size() - 1);
 		if (validation == 0){
-			std::cout << "\033c"; // clears the screen to display the next menu
+			cout << "\033c"; // clears the screen to display the next menu
 		}
 
         return validation;
     } else {
 		bool validation =(choice < 1 || choice > itens.size());
 		if (validation == 0){
-			std::cout << "\033c"; // clears the screen to display the next menu
+			cout << "\033c"; // clears the screen to display the next menu
 		}
         return validation;
     }

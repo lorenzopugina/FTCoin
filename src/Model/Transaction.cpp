@@ -27,10 +27,7 @@ double Transaction::getQuantity() const { return quantity; }
 void Transaction::setTransactionId() {
     transactionId = counter++;
 
-    cout << "\033[2J\033[H"; // clear screen
-    cout << "\033[1;32m";    // bright green
     cout << "Transaction created with ID: " << transactionId << endl;
-    cout << "\033[0m";       // reset to default color
 }
 
 void Transaction::setOperationDate(const Date& date) {
