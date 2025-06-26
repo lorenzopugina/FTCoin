@@ -2,7 +2,7 @@
 #define REPORT_CONTROLLER_H
 
 #include "../DAO/inMemory/WalletDAOMemory.h"
-#include "../DAO/inMemory/TransactionDAOMemory.h"
+#include "../DAO/inMemory/transactionDAOmemory.h"
 #include "../DAO/inMemory/OracleDAOMemory.h"
 #include "../Model/Wallet.h"
 #include "../Model/Transaction.h"

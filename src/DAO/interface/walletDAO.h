@@ -1,7 +1,7 @@
 #ifndef WALLET_DAO_H
 #define WALLET_DAO_H
 
-#include "../Model/Wallet.h"
+#include "../../Model/Wallet.h"
 #include <memory>
 #include <vector>
 

@@ -1,7 +1,7 @@
 #ifndef ORACLE_DAO_H
 #define ORACLE_DAO_H
 
-#include "../Model/Oracle.h"
+#include "../../Model/Oracle.h"
 #include <vector>
 #include <memory>
 

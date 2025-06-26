@@ -1,7 +1,7 @@
 #ifndef TRANSACTION_DAO_H
 #define TRANSACTION_DAO_H
 
-#include "Transaction.h"
+#include "../../Model/Transaction.h"
 #include <vector>
 #include <memory>
 
