@@ -3,18 +3,17 @@
 
 Menu::Menu(vector<string> &itens, string title, string message) :
 		itens(itens), title(title), message(message)
-	{
+{
 	this->setWidth();
 	this->setSymbol();
 	this->setZeroForLastOpt();
 	this->setRepeatList();
-	}
+}
 
-void Menu::setDecorator(const string &symbol, int width)
-	{
+void Menu::setDecorator(const string &symbol, int width){
 	this->symbol = symbol;
 	this->width = width;
-	}
+}
 
 const int Menu::getChoice() {
     unsigned long choice;
@@ -69,26 +68,24 @@ const string Menu::makeDecorator()
 	return (replicate(symbol, width));
 }
 
-// -----------------------------------------------------------------------------------------------------
 const bool Menu::isNotAValidChoice(unsigned long choice) const {
     if (zeroForLastOpt) {
-		bool teste = (choice > itens.size() - 1);
-		if (teste == 0){
-			std::cout << "\033c";
+		bool validation = (choice > itens.size() - 1);
+		if (validation == 0){
+			std::cout << "\033c"; // clears the screen to display the next menu
 		}
 
-        return teste; // 0 até itens.size() -1 são válidos
+        return validation;
     } else {
-		bool teste =(choice < 1 || choice > itens.size());
-		if (teste == 0){
-			std::cout << "\033c";
+		bool validation =(choice < 1 || choice > itens.size());
+		if (validation == 0){
+			std::cout << "\033c"; // clears the screen to display the next menu
 		}
-        return teste;
+        return validation;
     }
 }
 
-const string Menu::replicate(string text, int times) const
-{
+const string Menu::replicate(string text, int times) const{
 	string buffer;
 	for (int count = 0; count < times; count++){
 		buffer += text;
@@ -96,48 +93,24 @@ const string Menu::replicate(string text, int times) const
 	return (buffer);
 }
 
-const int Menu::getLength() const{ return (itens.size());}
-const string& Menu::getMessage() const{return message;}
+const int Menu::getLength() const{ return (itens.size()); }
+const string& Menu::getMessage() const{ return message; }
+const string Menu::getSymbol() const{ return symbol; }
+const string& Menu::getTitle() const{ return title;}
+int Menu::getWidth() const{ return width; }
 
-void Menu::setMessage(const string &message){
-	this->message = message;
-}
 
-bool Menu::isRepeatList() const{return repeatList;}
+void Menu::setMessage(const string &message){ this->message = message; }
+void Menu::setSymbol(const string &symbol){ this->symbol = symbol; }
+void Menu::setTitle(const string &title){ this->title = title; }
+void Menu::setWidth(int width){ this->width = width; }
 
-void Menu::setRepeatList(bool repeatList){
-	this->repeatList = repeatList;
-}
 
-const string Menu::getSymbol() const{return symbol;}
+bool Menu::isRepeatList() const{ return repeatList; }
+void Menu::setRepeatList(bool repeatList){ this->repeatList = repeatList; }
 
-void Menu::setSymbol(const string &symbol){
-	this->symbol = symbol;
-}
-
-const string& Menu::getTitle() const{
-	return title;
-}
-
-void Menu::setTitle(const string &title){
-	this->title = title;
-}
-
-int Menu::getWidth() const{
-	return width;
-}
-
-void Menu::setWidth(int width){
-	this->width = width;
-}
-
-bool Menu::isZeroForLastOpt() const{
-	return zeroForLastOpt;
-}
-
-void Menu::setZeroForLastOpt(bool zeroForLastOpt){
-	this->zeroForLastOpt = zeroForLastOpt;
-}
+bool Menu::isZeroForLastOpt() const{ return zeroForLastOpt; }
+void Menu::setZeroForLastOpt(bool zeroForLastOpt){ this->zeroForLastOpt = zeroForLastOpt; }
 
 Menu::~Menu(){}
 

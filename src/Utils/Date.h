@@ -11,11 +11,10 @@ class Date
 		int month;
 		int year;
 
-		// valida se é uma data possível
 		bool isValidDate(int day, int month, int year) const;
 
 	public:
-		Date(); // para data atual
+		Date(); // for current date
 		Date(int day, int month, int year);
 		virtual ~Date();
 

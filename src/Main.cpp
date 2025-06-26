@@ -2,70 +2,69 @@
 #include <memory>
 #include <vector>
 
-#include "./DAO/inMemory/CarteiraDAOMemoria.h"
-#include "./DAO/inMemory/MovimentacaoDAOMemoria.h"
-#include "./DAO/inMemory/OraculoDAOMemoria.h"
+#include "./DAO/inMemory/WalletDAOMemory.h"
+#include "./DAO/inMemory/TransactionDAOMemory.h"
+#include "./DAO/inMemory/OracleDAOMemory.h"
 
-#include "./Controller/controllerCarteira.h"
-#include "./Controller/controllerMovimentacao.h"
-#include "./Controller/controllerRelatorio.h"
+#include "./Controller/WalletController.h"
+#include "./Controller/TransactionController.h"
+#include "./Controller/ReportController.h"
 
-#include "./View/Ajuda.h"
-#include "./View/MenuCarteira.h"
-#include "./View/MenuMovimentacao.h"
-#include "./View/MenuRelatorio.h"
+#include "./View/help.h"
+#include "./View/walletMenu.h"
+#include "./View/transactionMenu.h"
+#include "./View/reportMenu.h"
 #include "./View/Menu.h"
-
 
 using namespace std;
 
 int main() {
-    //Instanciar os DAOs (Banco em memória)
-    auto carteiraDAO = make_shared<CarteiraDAOMemoria>();
-    auto movimentacaoDAO = make_shared<MovimentacaoDAOMemoria>();
-    auto oraculoDAO = make_shared<OraculoDAOMemoria>();
+    // Instantiate DAOs (In-memory database)
+    auto walletDAO = make_shared<WalletDAOMemory>();
+    auto transactionDAO = make_shared<TransactionDAOMemory>();
+    auto oracleDAO = make_shared<OracleDAOMemory>();
 
-    //Instanciar os Controllers
-    auto carteiraController = make_shared<CarteiraController>(carteiraDAO);
-    auto movimentacaoController = make_shared<ControllerMovimentacao>(movimentacaoDAO, oraculoDAO); // ta invertido o nome arrumar no ingles
-    auto relatorioController = make_shared<RelatorioController>(carteiraDAO, movimentacaoDAO, oraculoDAO);
+    // Instantiate Controllers
+    auto walletController = make_shared<WalletController>(walletDAO);
+    auto transactionController = make_shared<TransactionController>(transactionDAO, oracleDAO); // fixed naming
+    auto reportController = make_shared<ReportController>(walletDAO, transactionDAO, oracleDAO);
 
-    // Menu Principal
-    vector<string> opcoesMenu = {
-        "Carteira",
-        "Movimentacao",
-        "Relatorios",
-        "Ajuda",
-        "Sair"
+    // Main Menu
+    vector<string> menuOptions = {
+        "Wallet",
+        "Transaction",
+        "Reports",
+        "Help",
+        "Exit"
     };
 
-    bool executando = true;
+    bool running = true;
     do {
-        Menu menu(opcoesMenu, "Menu Principal", "Escolha uma opcao:");
+        Menu menu(menuOptions, "Main Menu", "Choose an option:");
 
-        int escolha = menu.getChoice();
+        int choice = menu.getChoice();
 
-        switch (escolha) {
-            case 0: // Menu Carteira
-                menuCarteira(carteiraController);
+        switch (choice) {
+            case 0: // Wallet Menu
+                walletMenu(walletController);
                 break;
-            case 1: // Menu Movimentação
-                menuMovimentacao(movimentacaoController);
+            case 1: // Transaction Menu
+                transactionMenu(transactionController);
                 break;
-            case 2: // Menu Relatórios
-                menuRelatorio(relatorioController);
+            case 2: // Reports Menu
+                reportMenu(reportController);
                 break;
-            case 3: { // Ajuda
-                Ajuda ajuda("ajuda.txt");
-                ajuda.exibir();
+            case 3: { // Help
+                Help help("help.txt");
+                help.display();
                 break;
             }
-            case 4: // Sair
-                executando = false;
-                cout << "Saindo do sistema...\n";
+            case 4: // Exit
+                running = false;
+                cout << "Exiting the system...\n";
                 break;
         }
-    } while (executando);
+    } while (running);
 
     return 0;
 }

@@ -15,7 +15,7 @@ Date::Date(){
 
 Date::Date(int day, int month, int year) {
 	if (!isValidDate(day, month, year)) {
-		throw std::invalid_argument("Data inválida.");
+		throw std::invalid_argument("Invalid date.");
 	}
 	this->day = day;
 	this->month = month;
@@ -37,14 +37,14 @@ void Date::setDate(int day, int month, int year){
 	}
 }
 
+// Checks if the given day is within the limit of the number of days in each month and the date is valid
 bool Date::isValidDate(int day, int month, int year) const {
-	if (day < 1 || month < 1 || month > 12 || year < 2000) return false; // rever o < 2000
+	if (day < 1 || month < 1 || month > 12 || year < 2000) return false;
 
-	int diasNoMes[] = { 31, 28, 31, 30, 31, 30, 
+	int monthDays[] = { 31, 28, 31, 30, 31, 30, 
 	                    31, 31, 30, 31, 30, 31 };
 
-	// verifica se o dia fornecido está dentro do limite da qtd de dias de cada mes
-	return day <= diasNoMes[month - 1]; 
+	return day <= monthDays[month - 1]; 
 }
 
 bool Date::operator==(const Date &other) const{
