@@ -26,7 +26,7 @@ bool TransactionController::createTransaction(int walletId, const Date& operatio
         Transaction transaction(walletId, operationDate, operationType, quantity);
 
         // validates if the sale is greater than the balance 
-        if (toupper(operationType) == 'V') {
+        if (toupper(operationType) == 'S') {
             double currentBalance = calculateWalletBalance(walletId); 
             if (currentBalance < quantity) {
                 Message::showError("Insufficient balance to complete the sale.");
