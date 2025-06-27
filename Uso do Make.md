@@ -1,15 +1,7 @@
-No linux:
+DIGITE:
 
 make          Para compilar
-make run      Para executar
-make clean    Para limpar
+make run      Para executar    ou ./programa
+clear         Para limpar
 
-
-No windows:
-
-mingw-make      Para Compilar
-./programa      Para Executar
-
-
-
-tem q estar na pastar FTCOIN (não pode entrar no src)
+deve esta na pasta FTCOIN (certifique-se de não entrar na pasta src)
