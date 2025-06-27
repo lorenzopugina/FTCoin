@@ -4,7 +4,7 @@
         "name": "Linux",
         "includePath": [
           "${workspaceFolder}/**",
-          "/usr/include/c++/13",           // ou sua versão do g++
+          "/usr/include/c++/13",           
           "/usr/include/x86_64-linux-gnu/c++/13",
           "/usr/include",
           "/usr/local/include"

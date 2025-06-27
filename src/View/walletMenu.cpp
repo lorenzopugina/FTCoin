@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -29,6 +31,10 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 getline(cin, holder);
                 cout << "Broker: ";
                 getline(cin, broker);
+
+                // convert to uppercase
+                holder = toUpper(holder);
+                broker = toUpper(broker);
 
                 if (walletController->createWallet(holder, broker))
                     Message::showSuccess("Wallet successfully created!");
@@ -61,6 +67,9 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 cout << "New Broker: ";
                 getline(cin, broker);
 
+                holder = toUpper(holder);
+                broker = toUpper(broker);
+
                 if (walletController->updateWallet(id, holder, broker))
                     Message::showSuccess("Wallet updated!");	
                 else
@@ -83,4 +92,12 @@ void walletMenu(shared_ptr<WalletController> walletController) {
                 break;
         }
     } while (running);
+}
+
+//convert a string to uppercase
+string toUpper(const string& str) {
+    string upperStr = str;
+    transform(upperStr.begin(), upperStr.end(), upperStr.begin(),
+              [](unsigned char c){ return toupper(c); });
+    return upperStr;
 }
