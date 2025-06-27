@@ -1,24 +1,30 @@
-====== AJUDA DO SISTEMA ======
+====== SYSTEM HELP ======
 
-Bem-vindo ao sistema de controle de carteiras!
+Welcome to the profit and loss calculation system!
 
-Opções disponíveis:
+Available options:
 
-1. Carteiras
-   - Criar, atualizar, remover e buscar carteiras de investimento.
+1. Wallet
+- Create, update, remove and search for investment wallets.
 
-2. Movimentações
-   - Registrar compras e vendas de ativos com datas e quantidades.
+First, start by creating a wallet, the output will be the ID and status of the operation, save this ID for future operations
 
-3. Relatórios
-   - Consultar saldos, históricos e simulações de ganhos/perdas.
+2. Transactions
+- Record purchases and sales of assets with dates and quantities.
+It also allows editing and deletion of Transactions, it works similarly to the wallet, save the ID for future operations
 
-Todas as informações são salvas em memória.
+3. Reports
+- Consult balances, histories, profit/loss simulations and wallet listings.
+It can be used if you need to review the IDs of the wallets, and use them to see the history, thus having access to the IDs of the movement Also
+
+- Gain/Loss is calculated based on the balance and quotation of the day, the value 0 means that your balance has not appreciated
+or depreciated, the output is in the American standard, therefore 10.20 means that your balance has appreciated 10.20
+
+All information is saved in memory.
 
 ==============================
 
-Criadores: Lorenzo, Joao, Ana, Maria, Adriano
+Creators: Lorenzo Pugina, Joao Anacleto, Ana Cardoso, Maria Muharem, Adriano Baumgarte
+Version 1.12
 
 ==============================
-
-
