@@ -26,7 +26,7 @@ int main() {
 
     // Instantiate Controllers
     auto walletController = make_shared<WalletController>(walletDAO);
-    auto transactionController = make_shared<TransactionController>(transactionDAO, oracleDAO); 
+    auto transactionController = make_shared<TransactionController>(transactionDAO, oracleDAO, walletDAO); 
     auto reportController = make_shared<ReportController>(walletDAO, transactionDAO, oracleDAO);
 
     // Main Menu
