@@ -1,4 +1,6 @@
 #include "TransactionController.h"
+#include "WalletController.h"
+
 
 using namespace std;
 
@@ -9,7 +11,14 @@ TransactionController::TransactionController(shared_ptr<TransactionDAO> dao,
 }
 
 bool TransactionController::createTransaction(int walletId, const Date& operationDate,
-                                              char operationType, double quantity) {
+                                              char operationType, double quantity) 
+{
+
+    if (WalletController::findWallet(walletId))
+    {
+        /* code */
+    }
+    
     try {
         Transaction transaction(walletId, operationDate, operationType, quantity);
         dao->save(transaction);

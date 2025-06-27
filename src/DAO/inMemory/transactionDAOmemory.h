@@ -1,7 +1,7 @@
-#ifndef TRANSACTIONDAOMEMORY_H
-#define TRANSACTIONDAOMEMORY_H
+#ifndef TRANSACTION_DAO_MEMORY_H
+#define TRANSACTION_DAO_MEMORY_H
 
-#include "../Interface/transactionDAO.h"
+#include "../interface/transactionDAO.h"
 #include <vector>
 #include <memory>
 

@@ -3,14 +3,14 @@
 #include <vector>
 
 #include "./DAO/inMemory/WalletDAOMemory.h"
-#include "./DAO/inMemory/TransactionDAOMemory.h"
+#include "./DAO/inMemory/transactionDAOmemory.h"
 #include "./DAO/inMemory/OracleDAOMemory.h"
 
 #include "./Controller/WalletController.h"
 #include "./Controller/TransactionController.h"
 #include "./Controller/ReportController.h"
 
-#include "./View/help.h"
+#include "./View/Help.h"
 #include "./View/walletMenu.h"
 #include "./View/transactionMenu.h"
 #include "./View/reportMenu.h"

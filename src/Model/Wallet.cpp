@@ -22,7 +22,7 @@ void Wallet::setId() {
     id = counter++;
 
     cout << "\033[2J\033[H"; // clear screen
-    cout << "Wallet created with ID: " << id << endl;
+    cout << "Wallet status with id: " << id << endl;
 }
 
 void Wallet::setHolder(const string& holder) {

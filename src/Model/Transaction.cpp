@@ -27,7 +27,7 @@ double Transaction::getQuantity() const { return quantity; }
 void Transaction::setTransactionId() {
     transactionId = counter++;
 
-    cout << "Transaction created with ID: " << transactionId << endl;
+    cout << "Transaction status with ID: " << transactionId << endl;
 }
 
 void Transaction::setOperationDate(const Date& date) {
